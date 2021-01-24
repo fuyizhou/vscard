@@ -6,6 +6,10 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 //加载战斗需要的元素和对信息
+var vapp = require('../vapp');
+var vplayer = require('../common/vplayer');
+var vcardgroup = require('../common/vcardgroup');
+var vcard = require('../common/vcard');
 
 cc.Class({
 
@@ -29,6 +33,11 @@ cc.Class({
         // },
     },
 
+    ctor: function () {
+        // 声明实例变量并赋默认值
+        this.cards = new Array();
+    },
+
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
@@ -42,32 +51,16 @@ cc.Class({
         // cc.assetManager.loadBundle(wx.env.USER_DATA_PATH + '/pathToBundle/bundleName', (err, bundle) => {
         //     // ...
         // });
-        var t_war_bg = this.node.getChildByName('war_bg');
-        if(t_war_bg) {
-            var t_desk = t_war_bg.getChildByName('ly_desk');
-            if(t_desk) {
-                var t_script = t_desk.getComponent('vdesk');
-                if(t_script) {
-                    t_script.setGridNull(0,0);
-                }
-            }
-        }
-        // //
-        // cc.assetManager.loadBundle('dywar', (err, bundle) => {
-        //     bundle.load('fk_lanse', cc.SpriteFrame ,function(err1,p2,spriteFrame){
-        //         let j = 0;
-        //         // //创建一个新的节点，因为cc.Sprite是组件不能直接挂载到节点上，只能添加到为节点的一个组件
-        //         // var node=new cc.Node('myNode')
-        //         // //调用新建的node的addComponent函数，会返回一个sprite的对象
-        //         // const sprite=node.addComponent(cc.Sprite)
-        //         //给sprite的spriteFrame属性 赋值
-        //         //t_sp.spriteFrame=spriteFrame
-        //         // //把新的节点追加到self.node节点去。self.node，就是脚本挂载的节点
-        //         // self.node.addChild(node);
-        //    },function(err,ii) {
-        //        let i = 0;
-        //    });
-        // });
+        // var t_war_bg = this.node.getChildByName('war_bg');
+        // if(t_war_bg) {
+        //     var t_desk = t_war_bg.getChildByName('ly_desk');
+        //     if(t_desk) {
+        //         var t_script = t_desk.getComponent('vdesk');
+        //         if(t_script) {
+        //             t_script.setGridNull(0,0);
+        //         }
+        //     }
+        // }
     },
 
     start () {
@@ -85,6 +78,8 @@ cc.Class({
         });
         //全局战斗
         window.war = this;
+        //准备5张卡牌
+        _readyCard( this, 5 );
     },
     
     onDisable: function () {
@@ -96,12 +91,29 @@ cc.Class({
     },
 
     drawCard : function() {
-        let i = 0;
-    }
 
-    //
+    }
 });
 
+//准备5张卡牌
+var _readyCard = function( self , cnum ) {
+    var cp = window.vapp.cardgroup();
+    var tmpCardArray = cp.drawCard( cnum );
+    tmpCardArray.forEach( card => {
+        self.cards.push( card );
+    });
+    //
+    var t_war_bg = self.node.getChildByName('war_bg');
+    if(t_war_bg) {
+        var t_btm = t_war_bg.getChildByName('ly_btm');
+        if(t_btm) {
+            var t_script = t_btm.getComponent('vcgroup');
+            if(t_script) {
+                t_script.genVirtualCard(tmpCardArray);
+            }
+        }
+    }
+}
 
 //生成临时卡牌
 var _genTmpCard = function( card ) {
@@ -110,6 +122,5 @@ var _genTmpCard = function( card ) {
     var lay_center = this.node.getChildByName('ly_center');
     if(lay_center) {
         //var tmp_node = new cc.node();
-
     }
 }

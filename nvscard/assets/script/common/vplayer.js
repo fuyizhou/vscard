@@ -20,7 +20,7 @@ module.exports = vplayer;
 
 //初始化卡组
 vplayer.prototype.initCardgroup = function( cfg ) {
-    
+
 }
 
 //赚取金币
@@ -30,7 +30,7 @@ vplayer.prototype.earnGold = function( gold ) {
 
 //消费金币
 vplayer.prototype.costGold = function( gold ) {
-
+    
 }
 
 //修改name

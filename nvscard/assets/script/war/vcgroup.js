@@ -28,14 +28,14 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
-
+    
     onLoad () {
         for(let i=0;i<5;i++) {
             var card = this.node.getChildByName("card"+i);
             if(card) {
                 card.on('mousedown', function ( event ) {
                     //请求服务器对战消息，根据消息然后，加载场景
-                    console.log("select card:"+ event.currentTarget._name);
+                    //console.log("select card:"+ event.currentTarget._name);
                     _selectCard( event.currentTarget);
                 });
                 // card.on('mouseup', function ( event ) {
@@ -61,15 +61,38 @@ cc.Class({
 
     onEnable: function () {
         //this.node.on('foobar', this._sayHello, this);
+        //war中准备好了5张卡牌，这里需要将卡牌实力化成UI
+        let i = 0;
+        let j = 0;
     },
     
     onDisable: function () {
         //this.node.off('foobar', this._sayHello, this);
     },
 
+    //生成虚拟卡片
+    genVirtualCard : function( data ) {
+        for(let i=0; i < data.length; i++ ) {
+            _genOneCard( this, i,data[i] );
+        }   
+    }
+
 });
 
 var l_active_node = null;
+
+//生成一张卡牌（卡牌索引id，卡牌数据）
+var _genOneCard = function ( self, iid, data ) {
+    //生成UI
+    var card = self.node.getChildByName("card"+iid);
+    if(card) {
+        //根据数据生成卡牌
+        var vcb_node = new cc.Node('vcard_base_'+i);
+        // var sp = bg_node.addComponent(cc.Sprite);
+        // sp.spriteFrame = ret;
+        vcb_node.parent = card;
+    }
+}
 
 //选中卡牌
 var _selectCard = function( targetNode ) {
