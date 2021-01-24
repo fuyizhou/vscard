@@ -36,13 +36,53 @@ cc.Class({
     ctor: function () {
         // 声明实例变量并赋默认值
         this.cards = new Array();
+        this.spf_bg = null;
+        this.spf_lan = null;
+        this.spf_hong = null;
+        this.spf_kuang = null;
     },
 
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
+        let war = this;
+        //加载资源
+        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+            war.spf_bg = spf;
+            var t_war_bg = war.node.getChildByName('war_bg');
+            if(t_war_bg) {
+                var t_desk = t_war_bg.getChildByName('ly_desk');
+                if(t_desk) {
+                    var t_script = t_desk.getComponent('vdesk');
+                    if(t_script) {
+                        t_script.initGridNull(spf);
+                    }
+                }
+            }
+        });
         //
-        //         // 原生平台
+        cc.resources.load("fk_lanse",cc.SpriteFrame, function (err, spf) {
+            war.spf_lan = spf;
+        });
+        //
+        cc.resources.load("fk_hongse",cc.SpriteFrame, function (err, spf) {
+            war.spf_hong = spf;
+        });
+        //
+        cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
+            war.spf_kuang = spf;
+            var t_war_bg = war.node.getChildByName('war_bg');
+            if(t_war_bg) {
+                var t_desk = t_war_bg.getChildByName('ly_desk');
+                if(t_desk) {
+                    var t_script = t_desk.getComponent('vdesk');
+                    if(t_script) {
+                        t_script.initGridSelect(spf);
+                    }
+                }
+            }
+        });
+        // 原生平台
         // cc.assetManager.loadBundle(jsb.fileUtils.getWritablePath() + '/pathToBundle/bundleName', (err, bundle) => {
         //     // ...
         // });
@@ -73,7 +113,7 @@ cc.Class({
     onEnable: function () {
         //监听卡牌被选中的时间
         this.node.on('e-card-select',  function ( event ) {
-            _genTmpCard( event.getUserData() );
+            //_genTmpCard( event.getUserData() );
             event.stopPropagation();
         });
         //全局战斗

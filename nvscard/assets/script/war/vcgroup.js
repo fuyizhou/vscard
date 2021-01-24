@@ -82,15 +82,33 @@ cc.Class({
 var l_active_node = null;
 
 //生成一张卡牌（卡牌索引id，卡牌数据）
-var _genOneCard = function ( self, iid, data ) {
+var _genOneCard = function ( self, iid, vcard ) {
     //生成UI
     var card = self.node.getChildByName("card"+iid);
     if(card) {
         //根据数据生成卡牌
-        var vcb_node = new cc.Node('vcard_base_'+i);
-        // var sp = bg_node.addComponent(cc.Sprite);
-        // sp.spriteFrame = ret;
+        var vcb_node = new cc.Node('vcard_base_'+iid);
+        var t_widget = vcb_node.addComponent(cc.Widget);
+        //布局
         vcb_node.parent = card;
+        //
+        for(let j=vcard.startp.y; j<vcard.endp.y; j++) {
+            for(let i=vcard.startp.x; i<vcard.endp.x; i++) {
+                let t_index = i + j*vcard.w;
+                let t_value = vcard.data[t_index];
+                let t_col = i - vcard.startp.x;
+                let t_row = j - vcard.startp.y;
+                //
+                var vc_bg_node = new cc.Node('vcard_bg');
+                var t_sp = vc_bg_node.addComponent(cc.Sprite);
+                vc_bg_node.parent = vcb_node;
+                //
+                var vc_label_node = new cc.Node('vcard_label');
+                var t_label = vc_label_node.addComponent(cc.Label);
+                vc_label_node.parent = vcb_node;
+            }
+        }
+        //vcard.data
     }
 }
 
