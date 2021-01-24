@@ -9,6 +9,10 @@ var vcardgroup = require('./common/vcardgroup');
 var vapp = function( cfg ) {
     window.vapp = this;
     //
+    this.language = 'chn';
+    //各种场景的budle
+    this.warBundle = null;
+    this.hallBundle = null;
     //构建脚本的各种对象
     this.vplayer = new vplayer(cfg.player);
     this.vcardgroup = new vcardgroup(cfg.cardgroup);

@@ -1,0 +1,13 @@
+
+Combo_Particle_Bone.png
+size: 364,360
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+qiu1
+  rotate: false
+  xy: 2, 2
+  size: 360, 356
+  orig: 510, 510
+  offset: 74, 77
+  index: -1

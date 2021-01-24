@@ -1,0 +1,20 @@
+
+Square_Explosion_Bone.png
+size: 453,243
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Square_Blue
+  rotate: false
+  xy: 247, 37
+  size: 204, 204
+  orig: 208, 208
+  offset: 1, 2
+  index: -1
+star_01
+  rotate: false
+  xy: 2, 2
+  size: 243, 239
+  orig: 400, 400
+  offset: 78, 79
+  index: -1

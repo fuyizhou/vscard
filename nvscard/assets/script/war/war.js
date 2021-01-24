@@ -8,6 +8,7 @@
 //加载战斗需要的元素和对信息
 
 cc.Class({
+
     extends: cc.Component,
 
     properties: {
@@ -28,10 +29,19 @@ cc.Class({
         // },
     },
 
-    // LIFE-CYCLE CALLBACKS:
+    // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
         //
+        //         // 原生平台
+        // cc.assetManager.loadBundle(jsb.fileUtils.getWritablePath() + '/pathToBundle/bundleName', (err, bundle) => {
+        //     // ...
+        // });
+
+        // // 微信小游戏平台
+        // cc.assetManager.loadBundle(wx.env.USER_DATA_PATH + '/pathToBundle/bundleName', (err, bundle) => {
+        //     // ...
+        // });
         var t_war_bg = this.node.getChildByName('war_bg');
         if(t_war_bg) {
             var t_desk = t_war_bg.getChildByName('ly_desk');
@@ -42,6 +52,22 @@ cc.Class({
                 }
             }
         }
+        // //
+        // cc.assetManager.loadBundle('dywar', (err, bundle) => {
+        //     bundle.load('fk_lanse', cc.SpriteFrame ,function(err1,p2,spriteFrame){
+        //         let j = 0;
+        //         // //创建一个新的节点，因为cc.Sprite是组件不能直接挂载到节点上，只能添加到为节点的一个组件
+        //         // var node=new cc.Node('myNode')
+        //         // //调用新建的node的addComponent函数，会返回一个sprite的对象
+        //         // const sprite=node.addComponent(cc.Sprite)
+        //         //给sprite的spriteFrame属性 赋值
+        //         //t_sp.spriteFrame=spriteFrame
+        //         // //把新的节点追加到self.node节点去。self.node，就是脚本挂载的节点
+        //         // self.node.addChild(node);
+        //    },function(err,ii) {
+        //        let i = 0;
+        //    });
+        // });
     },
 
     start () {

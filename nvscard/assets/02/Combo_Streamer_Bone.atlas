@@ -1,0 +1,20 @@
+
+Combo_Streamer_Bone.png
+size: 638,164
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Combo
+  rotate: false
+  xy: 2, 48
+  size: 396, 114
+  orig: 398, 116
+  offset: 1, 1
+  index: -1
+rund_01
+  rotate: false
+  xy: 400, 2
+  size: 236, 160
+  orig: 510, 510
+  offset: 137, 175
+  index: -1

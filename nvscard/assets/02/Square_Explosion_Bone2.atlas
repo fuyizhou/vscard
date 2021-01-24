@@ -1,0 +1,20 @@
+
+Square_Explosion_Bone2.png
+size: 1862,408
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+light02
+  rotate: false
+  xy: 2, 76
+  size: 1858, 330
+  orig: 2500, 2048
+  offset: 321, 857
+  index: -1
+light_2Side
+  rotate: false
+  xy: 2, 2
+  size: 1700, 72
+  orig: 2500, 250
+  offset: 400, 89
+  index: -1
