@@ -57,7 +57,11 @@ cc.Class({
 
     },
 
-    // update (dt) {},
+    update (dt) {
+        //刷新虚拟卡牌
+        _refreshVirCard( this );
+
+    },
 
     onEnable: function () {
         //this.node.on('foobar', this._sayHello, this);
@@ -76,7 +80,6 @@ cc.Class({
             _genOneCard( this, i,data[i] );
         }   
     }
-
 });
 
 var l_active_node = null;
@@ -84,31 +87,77 @@ var l_active_node = null;
 //生成一张卡牌（卡牌索引id，卡牌数据）
 var _genOneCard = function ( self, iid, vcard ) {
     //生成UI
-    var card = self.node.getChildByName("card"+iid);
-    if(card) {
-        //根据数据生成卡牌
-        var vcb_node = new cc.Node('vcard_base_'+iid);
-        var t_widget = vcb_node.addComponent(cc.Widget);
-        //布局
-        vcb_node.parent = card;
+    var scard = self.node.getChildByName("card"+iid);
+    if(scard) {
         //
+        let userdata = { dirty: true };
+        scard.userdata = userdata;
+        //
+        let cellsize = 200;
+        let space = 2;
+        //根据数据生成卡牌
+        var vcb_node = new cc.Node('vcard_base');
+        var t_layout = vcb_node.addComponent(cc.Layout);
+        if(t_layout) {
+            //设置卡牌布局
+        }
+        var t_widget = vcb_node.addComponent(cc.Widget);
+        if(t_widget) {
+            //设置widage
+
+        }
+        //计算父节点的尺寸
+        vcb_node.width = cellsize*(vcard.endp.x - vcard.startp.x) + space*(vcard.endp.x - vcard.startp.x - 1);
+        vcb_node.height = cellsize*(vcard.endp.y - vcard.startp.y) + space*(vcard.endp.y - vcard.startp.y - 1);
+
+        //设置卡牌内容
+        vcb_node.parent = scard;
         for(let j=vcard.startp.y; j<vcard.endp.y; j++) {
             for(let i=vcard.startp.x; i<vcard.endp.x; i++) {
                 let t_index = i + j*vcard.w;
                 let t_value = vcard.data[t_index];
                 let t_col = i - vcard.startp.x;
                 let t_row = j - vcard.startp.y;
-                //
-                var vc_bg_node = new cc.Node('vcard_bg');
-                var t_sp = vc_bg_node.addComponent(cc.Sprite);
-                vc_bg_node.parent = vcb_node;
-                //
-                var vc_label_node = new cc.Node('vcard_label');
-                var t_label = vc_label_node.addComponent(cc.Label);
-                vc_label_node.parent = vcb_node;
+                if(t_value>0) {
+                    //
+                    var vc_bg_node = new cc.Node('vcard_bg'+t_index);
+                    vc_bg_node.width = cellsize;
+                    vc_bg_node.height = cellsize;
+                    vc_bg_node.addComponent(cc.Sprite);
+                    vc_bg_node.parent = vcb_node;
+                    //
+                    var vc_num_node = new cc.Node('vcard_label');
+                    var t_num = vc_num_node.addComponent(cc.Label);
+                    t_num.string = ''+t_value;
+                    t_num.fontSize = cellsize;
+                    t_num.lineHeight = cellsize;
+                    //
+                    var t_num_widget = vc_num_node.addComponent(cc.Widget);
+
+                    vc_num_node.parent = vc_bg_node;
+                }else{
+                    //应该推入空节点
+                    var vc_hull_node = new cc.Node('vcard_bg'+t_index);
+                    vc_hull_node.width = 40;
+                    vc_hull_node.height = 40;
+                }
             }
         }
         //vcard.data
+    }
+}
+
+var _setVirCardSPF = function( cardnode , spf) {
+    if(cardnode && spf) {
+       var t_basenode = cardnode.getChildByName('vcard_base');
+       t_basenode.children.forEach( node => {
+           var sp = node.getComponent(cc.Sprite);
+           if(sp) {
+               sp.spriteFrame = spf;
+           }
+           node.width = 40;
+           node.height = 40;
+       });
     }
 }
 
@@ -145,5 +194,19 @@ var _placeCard = function( px, py) {
     //     targetNode.dispatchEvent(testEvent);    //用节点分发事件
     //     //targetNode.emit('say-hello', 'Hello, this is Cocos Creator');
     // }
+}
+
+//刷新卡牌
+var _refreshVirCard = function( vcgroup ) {
+    //更新sprite-frame
+    for(let i=0;i<5;i++) {
+        var card = vcgroup.node.getChildByName("card"+i);
+        if(card && card.userdata.dirty == true) {
+            if( this.vapp.war.spf_lan ) {
+                card.userdata.dirty = false;
+                _setVirCardSPF(card, this.vapp.war.spf_lan );
+            }
+        }
+    }
 }
 

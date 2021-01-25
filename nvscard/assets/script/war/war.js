@@ -40,12 +40,15 @@ cc.Class({
         this.spf_lan = null;
         this.spf_hong = null;
         this.spf_kuang = null;
+        //
+        window.vapp.war = this;
     },
 
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
         let war = this;
+        let t_war_widget = this.node.getComponent(cc.Widget);
         //加载资源
         cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
             war.spf_bg = spf;
