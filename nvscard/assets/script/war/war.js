@@ -108,7 +108,8 @@ cc.Class({
 
     start () {
         //搞战场
-        
+        //准备5张卡牌
+        _readyCard( this, 5 );
     },
 
     // update (dt) {},
@@ -121,8 +122,6 @@ cc.Class({
         });
         //全局战斗
         window.war = this;
-        //准备5张卡牌
-        _readyCard( this, 5 );
     },
     
     onDisable: function () {

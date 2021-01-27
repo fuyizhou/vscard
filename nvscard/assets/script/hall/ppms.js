@@ -32,6 +32,7 @@ cc.Class({
         this.node.on('mousedown', function ( event ) {
             //请求服务器对战消息，根据消息然后，加载场景
             console.log('ppms-press!');
+            //分包场景
             cc.director.loadScene("war");
             // bundle.loadScene('MyScene', function (err, scene) {
             //     cc.director.runScene(scene);

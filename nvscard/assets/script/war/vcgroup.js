@@ -86,64 +86,88 @@ var l_active_node = null;
 
 //生成一张卡牌（卡牌索引id，卡牌数据）
 var _genOneCard = function ( self, iid, vcard ) {
-    //生成UI
+
+    let cellsize = 400;
+    let space = 2;
+    let border = 6;
+    let vcard_col_num = vcard.endp.x - vcard.startp.x;
+    let vcard_row_num = vcard.endp.y - vcard.startp.y;
+    let vcard_w = cellsize*vcard_col_num + space*(vcard_col_num - 1) + 2*border;
+    let vcard_h = cellsize*vcard_row_num + space*(vcard_row_num - 1) + 2*border;
+
+    //生成卡牌UI
     var scard = self.node.getChildByName("card"+iid);
     if(scard) {
         //
         let userdata = { dirty: true };
         scard.userdata = userdata;
-        //
-        let cellsize = 200;
-        let space = 2;
-        //根据数据生成卡牌
-        var vcb_node = new cc.Node('vcard_base');
-        var t_layout = vcb_node.addComponent(cc.Layout);
-        if(t_layout) {
-            //设置卡牌布局
-        }
-        var t_widget = vcb_node.addComponent(cc.Widget);
-        if(t_widget) {
-            //设置widage
+        //虚拟卡牌底
+        var vcard_base_node = new cc.Node('vcard_base');
+        //设置卡牌布局
+        var t_layout = vcard_base_node.addComponent(cc.Layout);
+        t_layout.cellSize.Width = cellsize;
+        t_layout.cellSize.height = cellsize;
+        t_layout.type = cc.Layout.Type.GRID;
+        t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;
+        t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
+        t_layout.spacingX = space;
+        t_layout.spacingY = space;
+        t_layout.paddingLeft = border;
+        t_layout.paddingRight = border;
+        t_layout.paddingTop = border;
+        t_layout.paddingBottom = border;
 
-        }
+        //设置widage
+        var t_widget = vcard_base_node.addComponent(cc.Widget);
+        t_widget.isAlignVerticalCenter = true;
+        t_widget.isAlignHorizontalCenter = true;
+
+        var t_sprite = vcard_base_node.addComponent(cc.Sprite);
+        //t_sprite.spriteFrame = ;
+  
         //计算父节点的尺寸
-        vcb_node.width = cellsize*(vcard.endp.x - vcard.startp.x) + space*(vcard.endp.x - vcard.startp.x - 1);
-        vcb_node.height = cellsize*(vcard.endp.y - vcard.startp.y) + space*(vcard.endp.y - vcard.startp.y - 1);
-
+        vcard_base_node.width = vcard_w;
+        vcard_base_node.height = vcard_h;
+        //
+        vcard_base_node.x = 100;
+        vcard_base_node.y = 100;
         //设置卡牌内容
-        vcb_node.parent = scard;
-        for(let j=vcard.startp.y; j<vcard.endp.y; j++) {
-            for(let i=vcard.startp.x; i<vcard.endp.x; i++) {
-                let t_index = i + j*vcard.w;
+        vcard_base_node.parent = scard;
+        for(let j=0; j<vcard_row_num; j++) {
+            for(let i=0; i<vcard_col_num; i++) {
+                //计算数据索引
+                let t_index = (i + vcard.startp.x) + (j + vcard.startp.y)*vcard.w;
                 let t_value = vcard.data[t_index];
-                let t_col = i - vcard.startp.x;
-                let t_row = j - vcard.startp.y;
                 if(t_value>0) {
-                    //
-                    var vc_bg_node = new cc.Node('vcard_bg'+t_index);
-                    vc_bg_node.width = cellsize;
-                    vc_bg_node.height = cellsize;
-                    vc_bg_node.addComponent(cc.Sprite);
-                    vc_bg_node.parent = vcb_node;
-                    //
+                    //创建背景节点
+                    var vcard_bg_node = new cc.Node('vcard_bg'+t_index);
+                    vcard_bg_node.width = cellsize;
+                    vcard_bg_node.height = cellsize;
+                    vcard_bg_node.addComponent(cc.Sprite);
+                    vcard_bg_node.parent = vcard_base_node;
+                    //创建文字节点
                     var vc_num_node = new cc.Node('vcard_label');
                     var t_num = vc_num_node.addComponent(cc.Label);
                     t_num.string = ''+t_value;
                     t_num.fontSize = cellsize;
                     t_num.lineHeight = cellsize;
-                    //
                     var t_num_widget = vc_num_node.addComponent(cc.Widget);
-
-                    vc_num_node.parent = vc_bg_node;
+                    if(t_num_widget) {
+                        //t_num_widget
+                    }
+                    vc_num_node.parent = vcard_bg_node;
                 }else{
                     //应该推入空节点
-                    var vc_hull_node = new cc.Node('vcard_bg'+t_index);
-                    vc_hull_node.width = 40;
-                    vc_hull_node.height = 40;
+                    var vcard_hull_node = new cc.Node('vcard_bg'+t_index);
+                    vcard_hull_node.width = cellsize;
+                    vcard_hull_node.height = cellsize;
+                    vcard_hull_node.parent = vcard_base_node;
                 }
             }
         }
         //vcard.data
+        t_layout.updateLayout();
+        //t_widget.updateAlignment();
     }
 }
 

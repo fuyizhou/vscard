@@ -15,8 +15,8 @@ cc.Class({
     ctor: function () {
         // 声明实例变量并赋默认值
         //需要动态设置cellsize
-        this.rownum = 6;
-        this.colnum = 6;
+        this.rownum = 5;
+        this.colnum = 5;
         this.gnum = this.rownum*this.colnum;
     },
 
@@ -85,7 +85,7 @@ cc.Class({
         let t_index = gird_index(x,y);
         let t_aim = this.node.getChildByName('fk_'+t_index);
         if(t_aim) {
-            
+
         }
         setGridNull(x,y);
     },
