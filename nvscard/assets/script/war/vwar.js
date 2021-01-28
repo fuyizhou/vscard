@@ -10,6 +10,7 @@ var vapp = require('../vapp');
 var vplayer = require('../common/vplayer');
 var vcardgroup = require('../common/vcardgroup');
 var vcard = require('../common/vcard');
+const { resolve } = require('path');
 
 cc.Class({
 
@@ -49,42 +50,8 @@ cc.Class({
     onLoad () {
         let war = this;
         let t_war_widget = this.node.getComponent(cc.Widget);
-        //加载资源
-        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-            war.spf_bg = spf;
-            var t_war_bg = war.node.getChildByName('war_bg');
-            if(t_war_bg) {
-                var t_desk = t_war_bg.getChildByName('ly_desk');
-                if(t_desk) {
-                    var t_script = t_desk.getComponent('vdesk');
-                    if(t_script) {
-                        t_script.initGridNull(spf);
-                    }
-                }
-            }
-        });
         //
-        cc.resources.load("fk_lanse",cc.SpriteFrame, function (err, spf) {
-            war.spf_lan = spf;
-        });
-        //
-        cc.resources.load("fk_hongse",cc.SpriteFrame, function (err, spf) {
-            war.spf_hong = spf;
-        });
-        //
-        cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
-            war.spf_kuang = spf;
-            var t_war_bg = war.node.getChildByName('war_bg');
-            if(t_war_bg) {
-                var t_desk = t_war_bg.getChildByName('ly_desk');
-                if(t_desk) {
-                    var t_script = t_desk.getComponent('vdesk');
-                    if(t_script) {
-                        t_script.initGridSelect(spf);
-                    }
-                }
-            }
-        });
+        _preLoadRes(this);
         // 原生平台
         // cc.assetManager.loadBundle(jsb.fileUtils.getWritablePath() + '/pathToBundle/bundleName', (err, bundle) => {
         //     // ...
@@ -137,8 +104,82 @@ cc.Class({
     }
 });
 
+    // async.series([
+    //     cb => cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+    //             war.spf_bg = spf;
+    //             var t_war_bg = war.node.getChildByName('war_bg');
+    //             if(t_war_bg) {
+    //                 var t_desk = t_war_bg.getChildByName('ly_desk');
+    //                 if(t_desk) {
+    //                     var t_script = t_desk.getComponent('vdesk');
+    //                     if(t_script) {
+    //                         t_script.initGridNull(spf);
+    //                     }
+    //                 }
+    //             }
+    //         })
+    // ],(err)=>{
+    //     console.log("test async error!");
+    // });
+
+    // await cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+    //     war.spf_bg = spf;
+    //     var t_war_bg = war.node.getChildByName('war_bg');
+    //     if(t_war_bg) {
+    //         var t_desk = t_war_bg.getChildByName('ly_desk');
+    //         if(t_desk) {
+    //             var t_script = t_desk.getComponent('vdesk');
+    //             if(t_script) {
+    //                 t_script.initGridNull(spf);
+    //             }
+    //         }
+    //     }
+    // });
+    // //
+    // await cc.resources.load("fk_lanse",cc.SpriteFrame, function (err, spf) {
+    //     war.spf_lan = spf;
+    // });
+    // //
+    // await cc.resources.load("fk_hongse",cc.SpriteFrame, function (err, spf) {
+    //     war.spf_hong = spf;
+    // });
+    // //
+    // await cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
+    //     war.spf_kuang = spf;
+    //     var t_war_bg = war.node.getChildByName('war_bg');
+    //     if(t_war_bg) {
+    //         var t_desk = t_war_bg.getChildByName('ly_desk');
+    //         if(t_desk) {
+    //             var t_script = t_desk.getComponent('vdesk');
+    //             if(t_script) {
+    //                 t_script.initGridSelect(spf);
+    //             }
+    //         }
+    //     }
+    // });
+
+function _preLoadRes( war ) {
+    //加载资源
+    // let i = await new Promise( (resolve,reject) => {
+    //     cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+    //         war.spf_bg = spf;
+    //         reject(spf);
+    //     });
+    // });
+    // console.log("spf" + i);
+    // let j = await new Promise( (resolve,reject) => {
+    //     cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+    //         war.spf_bg = spf;
+    //         reject(spf);
+    //     });
+    // });
+    // console.log("spf" + j);
+    return null;
+}
+
+
 //准备5张卡牌
-var _readyCard = function( self , cnum ) {
+function _readyCard( self , cnum ) {
     var cp = window.vapp.cardgroup();
     var tmpCardArray = cp.drawCard( cnum );
     tmpCardArray.forEach( card => {
@@ -158,7 +199,7 @@ var _readyCard = function( self , cnum ) {
 }
 
 //生成临时卡牌
-var _genTmpCard = function( card ) {
+function _genTmpCard( card ) {
     let i = 0;
     //生成一张卡牌，挂在
     var lay_center = this.node.getChildByName('ly_center');

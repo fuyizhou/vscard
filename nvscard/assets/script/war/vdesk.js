@@ -21,24 +21,24 @@ cc.Class({
     },
 
     initGridNull : function(spf) {
-        for(let i=0;i<this.gnum;i++) {
-            //构建背景节点
-            var bg_node = this.node.getChildByName('fk_'+i);
-            var sp = bg_node.getComponent(cc.Sprite);
-            sp.spriteFrame = spf;
-            bg_node.active = true;
-        }
+        // for(let i=0;i<this.gnum;i++) {
+        //     //构建背景节点
+        //     var bg_node = this.node.getChildByName('fk_'+i);
+        //     var sp = bg_node.getComponent(cc.Sprite);
+        //     sp.spriteFrame = spf;
+        //     bg_node.active = true;
+        // }
     },
 
     initGridSelect : function(spf) {
-        for(let i=0;i<this.gnum;i++) {
-            //构建背景节点
-            var bg_node = this.node.getChildByName('fk_'+i);
-            var sel_node = bg_node.getChildByName('fk_sel');
-            var sp = sel_node.getComponent(cc.Sprite);
-            sp.spriteFrame = spf;
-            sel_node.active = true;
-        }
+        // for(let i=0;i<this.gnum;i++) {
+        //     //构建背景节点
+        //     var bg_node = this.node.getChildByName('fk_'+i);
+        //     var sel_node = bg_node.getChildByName('fk_sel');
+        //     var sp = sel_node.getComponent(cc.Sprite);
+        //     sp.spriteFrame = spf;
+        //     sel_node.active = true;
+        // }
     },
 
     //格子空(c)

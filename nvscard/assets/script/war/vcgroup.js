@@ -59,7 +59,7 @@ cc.Class({
 
     update (dt) {
         //刷新虚拟卡牌
-        _refreshVirCard( this );
+        //_refreshVirCard( this );
 
     },
 
@@ -85,8 +85,11 @@ cc.Class({
 var l_active_node = null;
 
 //生成一张卡牌（卡牌索引id，卡牌数据）
-var _genOneCard = function ( self, iid, vcard ) {
-
+function _genOneCard ( self, iid, vcard ) {
+    //await ;
+    // async.series([
+    // ],(error)=>{
+    // });
     let cellsize = 400;
     let space = 2;
     let border = 6;
@@ -171,7 +174,7 @@ var _genOneCard = function ( self, iid, vcard ) {
     }
 }
 
-var _setVirCardSPF = function( cardnode , spf) {
+function _setVirCardSPF( cardnode , spf) {
     if(cardnode && spf) {
        var t_basenode = cardnode.getChildByName('vcard_base');
        t_basenode.children.forEach( node => {
@@ -186,7 +189,7 @@ var _setVirCardSPF = function( cardnode , spf) {
 }
 
 //选中卡牌
-var _selectCard = function( targetNode ) {
+function _selectCard( targetNode ) {
     if(targetNode) {
         l_active_node = targetNode;
         targetNode.active = false;
@@ -199,12 +202,12 @@ var _selectCard = function( targetNode ) {
 }
 
 //选中卡牌
-var _moveCard = function( px, py) {
+function _moveCard( px, py) {
 
 }
 
 //放置卡牌
-var _placeCard = function( px, py) {
+function _placeCard( px, py) {
     if(l_active_node) {
         l_active_node._opacity = 255;
         //抽卡
@@ -221,16 +224,16 @@ var _placeCard = function( px, py) {
 }
 
 //刷新卡牌
-var _refreshVirCard = function( vcgroup ) {
-    //更新sprite-frame
-    for(let i=0;i<5;i++) {
-        var card = vcgroup.node.getChildByName("card"+i);
-        if(card && card.userdata.dirty == true) {
-            if( this.vapp.war.spf_lan ) {
-                card.userdata.dirty = false;
-                _setVirCardSPF(card, this.vapp.war.spf_lan );
-            }
-        }
-    }
+function _refreshVirCard( vcgroup ) {
+    // //更新sprite-frame
+    // for(let i=0;i<5;i++) {
+    //     var card = vcgroup.node.getChildByName("card"+i);
+    //     if(card && card.userdata.dirty == true) {
+    //         if( this.vapp.war.spf_lan ) {
+    //             card.userdata.dirty = false;
+    //             _setVirCardSPF(card, this.vapp.war.spf_lan );
+    //         }
+    //     }
+    // }
 }
 

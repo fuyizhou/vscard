@@ -4,7 +4,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-var pomelo = require("../pomelo/pomelo-client.js");
+var pomelo = require("../third/pomelo/pomelo-client.js");
 var vapp = require("../vapp.js");
 
 cc.Class({
