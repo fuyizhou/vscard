@@ -86,92 +86,97 @@ var l_active_node = null;
 
 //生成一张卡牌（卡牌索引id，卡牌数据）
 function _genOneCard ( self, iid, vcard ) {
-    //await ;
-    // async.series([
-    // ],(error)=>{
-    // });
-    let cellsize = 400;
+    let cellsize = 80;
     let space = 2;
     let border = 6;
     let vcard_col_num = vcard.endp.x - vcard.startp.x;
     let vcard_row_num = vcard.endp.y - vcard.startp.y;
     let vcard_w = cellsize*vcard_col_num + space*(vcard_col_num - 1) + 2*border;
     let vcard_h = cellsize*vcard_row_num + space*(vcard_row_num - 1) + 2*border;
-
     //生成卡牌UI
     var scard = self.node.getChildByName("card"+iid);
     if(scard) {
-        //
-        let userdata = { dirty: true };
-        scard.userdata = userdata;
+        // let userdata = { dirty: true };
+        // scard.userdata = userdata;
         //虚拟卡牌底
-        var vcard_base_node = new cc.Node('vcard_base');
+        var vircard_node = new cc.Node('vircard'+iid);
+        vircard_node.width = vcard_w;
+        vircard_node.height = vcard_h;
+        // vircard_node.x = 0;
+        // vircard_node.y = 400;
         //设置卡牌布局
-        var t_layout = vcard_base_node.addComponent(cc.Layout);
-        t_layout.cellSize.Width = cellsize;
-        t_layout.cellSize.height = cellsize;
-        t_layout.type = cc.Layout.Type.GRID;
-        t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;
-        t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
-        t_layout.spacingX = space;
-        t_layout.spacingY = space;
-        t_layout.paddingLeft = border;
-        t_layout.paddingRight = border;
-        t_layout.paddingTop = border;
-        t_layout.paddingBottom = border;
-
+        // var t_layout = vircard_node.addComponent(cc.Layout);
+        // t_layout.cellSize.width = cellsize;
+        // t_layout.cellSize.height = cellsize;
+        // t_layout.type = cc.Layout.Type.GRID;
+        // t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;`
+        // t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
+        // t_layout.spacingX = space;
+        // t_layout.spacingY = space;
+        // t_layout.paddingLeft = border;
+        // t_layout.paddingRight = border;
+        // t_layout.paddingTop = border;
+        // t_layout.paddingBottom = border;
+        // t_layout.updateLayout();
         //设置widage
-        var t_widget = vcard_base_node.addComponent(cc.Widget);
+        var t_widget = vircard_node.addComponent(cc.Widget);
         t_widget.isAlignVerticalCenter = true;
         t_widget.isAlignHorizontalCenter = true;
-
-        var t_sprite = vcard_base_node.addComponent(cc.Sprite);
-        //t_sprite.spriteFrame = ;
-  
-        //计算父节点的尺寸
-        vcard_base_node.width = vcard_w;
-        vcard_base_node.height = vcard_h;
+        t_widget.horizontalCenter = 0;
+        t_widget.verticalCenter = 50;
         //
-        vcard_base_node.x = 100;
-        vcard_base_node.y = 100;
-        //设置卡牌内容
-        vcard_base_node.parent = scard;
-        for(let j=0; j<vcard_row_num; j++) {
-            for(let i=0; i<vcard_col_num; i++) {
-                //计算数据索引
-                let t_index = (i + vcard.startp.x) + (j + vcard.startp.y)*vcard.w;
-                let t_value = vcard.data[t_index];
-                if(t_value>0) {
-                    //创建背景节点
-                    var vcard_bg_node = new cc.Node('vcard_bg'+t_index);
-                    vcard_bg_node.width = cellsize;
-                    vcard_bg_node.height = cellsize;
-                    vcard_bg_node.addComponent(cc.Sprite);
-                    vcard_bg_node.parent = vcard_base_node;
-                    //创建文字节点
-                    var vc_num_node = new cc.Node('vcard_label');
-                    var t_num = vc_num_node.addComponent(cc.Label);
-                    t_num.string = ''+t_value;
-                    t_num.fontSize = cellsize;
-                    t_num.lineHeight = cellsize;
-                    var t_num_widget = vc_num_node.addComponent(cc.Widget);
-                    if(t_num_widget) {
-                        //t_num_widget
-                    }
-                    vc_num_node.parent = vcard_bg_node;
-                }else{
-                    //应该推入空节点
-                    var vcard_hull_node = new cc.Node('vcard_bg'+t_index);
-                    vcard_hull_node.width = cellsize;
-                    vcard_hull_node.height = cellsize;
-                    vcard_hull_node.parent = vcard_base_node;
-                }
-            }
+        var t_sprite = vircard_node.addComponent(cc.Sprite);
+        if(t_sprite) {
+            t_sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+            cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+                t_sprite.spriteFrame = spf;
+            });
         }
-        //vcard.data
-        t_layout.updateLayout();
-        //t_widget.updateAlignment();
+        // //
+        // var t_label = vircard_node.addComponent(cc.Label);
+        // if(t_label) {
+        //     t_label.string = 'a';
+        //     t_label.fontSize = cellsize;
+        //     t_label.lineHeight = cellsize;
+        // }   
+        vircard_node.parent = scard;
+    //     //设置卡牌内容
+    //     for(let j=0; j<vcard_row_num; j++) {
+    //         for(let i=0; i<vcard_col_num; i++) {
+    //             //计算数据索引
+    //             let t_index = (i + vcard.startp.x) + (j + vcard.startp.y)*vcard.w;
+    //             let t_value = vcard.data[t_index];
+    //             if(t_value>0) {
+    //                 //创建背景节点
+    //                 var num_node = new cc.Node('num_node'+t_index);
+    //                 num_node.width = cellsize;
+    //                 num_node.height = cellsize;
+    //                 var num_sp = num_node.addComponent(cc.Sprite);
+    //                 if(num_sp) {
+    //                     num_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    //                 }
+    //                 var num_label = num_node.addComponent(cc.Label);
+    //                 if(num_label) {
+    //                     num_label.string = ''+t_value;
+    //                     num_label.fontSize = cellsize;
+    //                     num_label.lineHeight = cellsize;
+    //                 }                
+    //                 // var num_widget = num_node.addComponent(cc.Widget);
+    //                 // if(num_widget) {
+                        
+    //                 // }
+    //                 num_node.parent = vircard_node;
+    //             }else{
+    //                 //应该推入空节点
+    //                 var hull_node = new cc.Node('null_node');
+    //                 hull_node.width = cellsize;
+    //                 hull_node.height = cellsize;
+    //                 hull_node.parent = vircard_node;
+    //             }
+    //         }
+    //     }
     }
+    //let jj = 0;
 }
 
 function _setVirCardSPF( cardnode , spf) {

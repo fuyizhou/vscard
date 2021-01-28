@@ -42,7 +42,7 @@ cc.Class({
         this.spf_hong = null;
         this.spf_kuang = null;
         //
-        window.vapp.war = this;
+        //window.vapp.war = this;
     },
 
     // LIFE-CYCLE CALLBACKS: 
