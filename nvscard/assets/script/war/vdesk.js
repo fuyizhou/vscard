@@ -18,27 +18,10 @@ cc.Class({
         this.rownum = 5;
         this.colnum = 5;
         this.gnum = this.rownum*this.colnum;
-    },
-
-    initGridNull : function(spf) {
-        // for(let i=0;i<this.gnum;i++) {
-        //     //构建背景节点
-        //     var bg_node = this.node.getChildByName('fk_'+i);
-        //     var sp = bg_node.getComponent(cc.Sprite);
-        //     sp.spriteFrame = spf;
-        //     bg_node.active = true;
-        // }
-    },
-
-    initGridSelect : function(spf) {
-        // for(let i=0;i<this.gnum;i++) {
-        //     //构建背景节点
-        //     var bg_node = this.node.getChildByName('fk_'+i);
-        //     var sel_node = bg_node.getChildByName('fk_sel');
-        //     var sp = sel_node.getComponent(cc.Sprite);
-        //     sp.spriteFrame = spf;
-        //     sel_node.active = true;
-        // }
+        this.cellw = 0;
+        this.cellh = 0;
+        this.border = 6;
+        this.space = 4;
     },
 
     //格子空(c)
@@ -92,65 +75,7 @@ cc.Class({
 
     onLoad () {
         //构建desk
-        let desk_node = this.node;
-        //计算cellsize
-        let t_lay = desk_node.getComponent(cc.Layout);
-        if(t_lay) {
-            if(t_lay.startAxis == 0) {
-                let t_cellw = (desk_node.width - t_lay.paddingLeft -  t_lay.paddingRight - (this.colnum - 1) * t_lay.spacingX)/this.colnum;
-                let t_cellh = t_cellw;
-                t_lay.cellSize.width = t_cellw;
-                t_lay.cellSize.height = t_cellh;
-            }else {
-                let t_cellh = (desk_node.height - t_lay.paddingTop -  t_lay.paddingBottom - (this.rownum - 1) * t_lay.spacingY)/this.rownum;
-                let t_cellw = t_cellh;
-                t_lay.cellSize.width = t_cellw;
-                t_lay.cellSize.height = t_cellh;
-            }
-        }
-        let t_lay_widget = desk_node.getComponent(cc.Widget);
-        //
-        for(let i=0;i<this.gnum;i++) {
-            //构建背景节点
-            var bg_node = new cc.Node('fk_'+i);
-            bg_node.addComponent(cc.Sprite);
-            //构建选择节点
-            var sel_node = new cc.Node('fk_sel');
-            sel_node.addComponent(cc.Sprite);
-            //
-            let bg_widget = sel_node.addComponent(cc.Widget);
-            if(bg_widget) {
-                //bg_widget
-                bg_widget.isAlignLeft = true;
-                bg_widget.isAlignRight = true;
-                bg_widget.isAlignBottom = true;
-                bg_widget.isAlignTop = true;
-                bg_widget.updateAlignment();
-            }
-            //
-            sel_node.parent = bg_node;
-            sel_node.active = true;
-            //构建文字节点
-            var num_node = new cc.Node('fk_num');
-            let num_widget = num_node.addComponent(cc.Widget);
-            if(num_widget) {
-                //num_widget
-                num_widget.isAlignLeft = true;
-                num_widget.isAlignRight = true;
-                num_widget.isAlignBottom = true;
-                num_widget.isAlignTop = true;
-                num_widget.updateAlignment();
-            }
-            var label = num_node.addComponent(cc.Label);
-            label.string = "8";
-            label.fontSize = 80;
-            label.lineHeight = 80;
-            num_node.parent = bg_node;
-            num_node.active = true;
-            //
-            bg_node.parent = desk_node;
-            bg_node.active = true;
-        }
+        build_grid(this,this.node, this.colnum, this.rownum);
     },
 
     onEnable: function () {
@@ -160,14 +85,103 @@ cc.Class({
     onDisable: function () {
 
     },
-
+    
     start () {
-
+        
     },
-
     // update (dt) {},
 });
 
-var gird_index = function( x , y) {
+function gird_index( x , y) {
     return x + y * 5;
+}
+
+//构建棋盘
+function build_grid(self,desk_node, colnum, rownum) {
+    //计算cellsize
+    let t_tw = desk_node.width;
+    let t_th = desk_node.height;
+    //设置布局
+    let t_lay = desk_node.getComponent(cc.Layout);
+    if(!t_lay) {
+        t_lay = desk_node.addComponent(cc.Layout);
+    }
+    t_lay.type = cc.Layout.Type.GRID;
+    t_lay.resizeMode = cc.Layout.ResizeMode.CHILDREN;
+    t_lay.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
+    t_lay.spacingX = self.space;
+    t_lay.spacingY = self.space;
+    t_lay.paddingLeft = self.border;
+    t_lay.paddingRight = self.border;
+    t_lay.paddingTop = self.border;
+    t_lay.paddingBottom = self.border;
+    self.cellw  = (t_tw - 2*self.border - (colnum-1)*self.space )/colnum;
+    self.cellh = (t_th - 2*self.border - (rownum-1)*self.space )/rownum;
+    t_lay.cellSize.width = self.cellw;
+    t_lay.cellSize.height = self.cellh;
+    //
+    for(let i=0;i<self.gnum;i++) {
+        //构建背景节点
+        var bg_node = new cc.Node('fk_'+i);
+        bg_node.width = self.cellw;
+        bg_node.height = self.cellh;
+        fillBgNode(bg_node);
+        //选择框节点
+        var sel_node = new cc.Node('fk_sel');
+        sel_node.width = self.cellw;
+        sel_node.height = self.cellh;
+        fillSelNode(sel_node);
+        let bg_widget = sel_node.addComponent(cc.Widget);
+        if(bg_widget) {
+            //bg_widget
+            bg_widget.isAlignLeft = true;
+            bg_widget.isAlignRight = true;
+            bg_widget.isAlignBottom = true;
+            bg_widget.isAlignTop = true;
+            bg_widget.updateAlignment();
+        }
+        sel_node.parent = bg_node;
+        sel_node.active = false;
+        //文字节点
+        var num_node = new cc.Node('fk_num');
+        let num_widget = num_node.addComponent(cc.Widget);
+        if(num_widget) {
+            num_widget.isAlignLeft = true;
+            num_widget.isAlignRight = true;
+            num_widget.isAlignBottom = true;
+            num_widget.isAlignTop = true;
+            num_widget.updateAlignment();
+        }
+        var label = num_node.addComponent(cc.Label);
+        label.string = "8";
+        label.fontSize = 80;
+        label.lineHeight = 80;
+        num_node.parent = bg_node;
+        num_node.active = true;
+        //
+        bg_node.parent = desk_node;
+        bg_node.active = true;
+    }
+    //
+    t_lay.updateLayout();
+}
+
+function fillBgNode( target ) {
+    let sp = target.addComponent(cc.Sprite);
+    if(sp) {
+        sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+            sp.spriteFrame = spf;
+        });
+    }
+}
+
+function fillSelNode( target ) {
+    let sp = target.addComponent(cc.Sprite);
+    if(sp) {
+        sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
+            sp.spriteFrame = spf;
+        });
+    }
 }
