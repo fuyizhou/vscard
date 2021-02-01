@@ -28,24 +28,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this.node.active = false;
-    },
+    // onLoad () {},
 
     start () {
 
     },
 
-    showTips( tips ) {
-        if(tips == 'a') {
-            
-        }else if(tips == 'b') {
-
-        }else if(tips == 'c') {
-
-        }else if(tips == 'd') {
-
-        }
-    }
     // update (dt) {},
 });

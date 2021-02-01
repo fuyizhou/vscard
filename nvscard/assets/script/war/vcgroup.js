@@ -35,8 +35,7 @@ cc.Class({
             if(card) {
                 card.on('mousedown', function ( event ) {
                     //请求服务器对战消息，根据消息然后，加载场景
-                    //console.log("select card:"+ event.currentTarget._name);
-                    _selectCard( event.currentTarget);
+                    _selectCard( event.currentTarget );
                 });
                 // card.on('mouseup', function ( event ) {
                 //     //请求服务器对战消息，根据消息然后，加载场景
@@ -99,31 +98,11 @@ function _genOneCard ( self, iid, vcard ) {
         // let userdata = { dirty: true };
         // scard.userdata = userdata;
         //虚拟卡牌底
-        var vircard_node = new cc.Node('vircard'+iid);
+        var vircard_node = new cc.Node('vircard');
+        vircard_node.x = 0;
+        vircard_node.y = 0;
         vircard_node.width = vcard_w;
         vircard_node.height = vcard_h;
-        // vircard_node.x = 0;
-        // vircard_node.y = 400;
-        //设置卡牌布局
-        // var t_layout = vircard_node.addComponent(cc.Layout);
-        // t_layout.cellSize.width = cellsize;
-        // t_layout.cellSize.height = cellsize;
-        // t_layout.type = cc.Layout.Type.GRID;
-        // t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;`
-        // t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
-        // t_layout.spacingX = space;
-        // t_layout.spacingY = space;
-        // t_layout.paddingLeft = border;
-        // t_layout.paddingRight = border;
-        // t_layout.paddingTop = border;
-        // t_layout.paddingBottom = border;
-        // t_layout.updateLayout();
-        //设置widage
-        var t_widget = vircard_node.addComponent(cc.Widget);
-        t_widget.isAlignVerticalCenter = true;
-        t_widget.isAlignHorizontalCenter = true;
-        t_widget.horizontalCenter = 0;
-        t_widget.verticalCenter = 50;
         //
         var t_sprite = vircard_node.addComponent(cc.Sprite);
         if(t_sprite) {
@@ -132,51 +111,8 @@ function _genOneCard ( self, iid, vcard ) {
                 t_sprite.spriteFrame = spf;
             });
         }
-        // //
-        // var t_label = vircard_node.addComponent(cc.Label);
-        // if(t_label) {
-        //     t_label.string = 'a';
-        //     t_label.fontSize = cellsize;
-        //     t_label.lineHeight = cellsize;
-        // }   
         vircard_node.parent = scard;
-    //     //设置卡牌内容
-    //     for(let j=0; j<vcard_row_num; j++) {
-    //         for(let i=0; i<vcard_col_num; i++) {
-    //             //计算数据索引
-    //             let t_index = (i + vcard.startp.x) + (j + vcard.startp.y)*vcard.w;
-    //             let t_value = vcard.data[t_index];
-    //             if(t_value>0) {
-    //                 //创建背景节点
-    //                 var num_node = new cc.Node('num_node'+t_index);
-    //                 num_node.width = cellsize;
-    //                 num_node.height = cellsize;
-    //                 var num_sp = num_node.addComponent(cc.Sprite);
-    //                 if(num_sp) {
-    //                     num_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-    //                 }
-    //                 var num_label = num_node.addComponent(cc.Label);
-    //                 if(num_label) {
-    //                     num_label.string = ''+t_value;
-    //                     num_label.fontSize = cellsize;
-    //                     num_label.lineHeight = cellsize;
-    //                 }                
-    //                 // var num_widget = num_node.addComponent(cc.Widget);
-    //                 // if(num_widget) {
-                        
-    //                 // }
-    //                 num_node.parent = vircard_node;
-    //             }else{
-    //                 //应该推入空节点
-    //                 var hull_node = new cc.Node('null_node');
-    //                 hull_node.width = cellsize;
-    //                 hull_node.height = cellsize;
-    //                 hull_node.parent = vircard_node;
-    //             }
-    //         }
-    //     }
     }
-    //let jj = 0;
 }
 
 function _setVirCardSPF( cardnode , spf) {
@@ -194,14 +130,23 @@ function _setVirCardSPF( cardnode , spf) {
 }
 
 //选中卡牌
-function _selectCard( targetNode ) {
-    if(targetNode) {
-        l_active_node = targetNode;
-        targetNode.active = false;
-        //节点身上应该带上逻辑card
-        let testEvent = new cc.Event.EventCustom("e-card-select", true);//创建自定义事件
-        testEvent.setUserData( targetNode.getUserData() );    //设置自定义事件中包含的数据
-        targetNode.dispatchEvent(testEvent);    //用节点分发事件
+function _selectCard( cardNode ) {
+    if(cardNode) {
+        l_active_node = cardNode;
+        //将该节点送到mv上
+        let t_sc = cc.director.getScene();
+        if(t_sc) {
+            let scene_root = t_sc.getChildByName('cvs_war');
+            let center_node = scene_root.getChildByName('ly_center');
+            let t_script = center_node.getComponent('vcardmv');
+            if(t_script) {
+                t_script.setSelectCard( cardNode);
+            }
+        }
+        // //节点身上应该带上逻辑card
+        // let testEvent = new cc.Event.EventCustom("e-card-select", true);//创建自定义事件
+        // //testEvent.setUserData( targetNode.getUserData() );    //设置自定义事件中包含的数据
+        // targetNode.dispatchEvent(testEvent);    //用节点分发事件
         //targetNode.emit('say-hello', 'Hello, this is Cocos Creator');
     }
 }

@@ -86,7 +86,14 @@ cc.Class({
 
     //格子消除
     setGridDisappear : function( x ,y ) {
+
+    },
+
+    //生成虚拟卡牌节点(根据数据)
+    genVirCardNode : function ( vcard ) {
+        return _genVirCardNode(this,vcard);
     }
+    
 });
 
 function _girdIndex(self, x , y) {
@@ -128,12 +135,12 @@ function _buildGrid(self,desk_node, colnum, rownum) {
         var bg_node = new cc.Node('fk_'+i);
         bg_node.width = self.cellw;
         bg_node.height = self.cellh;
-        fillBgNode(bg_node);
+        _fillBgNode(bg_node,'');
         //选择框节点
         var sel_node = new cc.Node('fk_sel');
         sel_node.width = self.cellw;
         sel_node.height = self.cellh;
-        fillSelNode(sel_node);
+        _fillSelNode(sel_node);
         let bg_widget = sel_node.addComponent(cc.Widget);
         if(bg_widget) {
             //bg_widget
@@ -200,6 +207,7 @@ function _crossGrid(self,gridlist ) {
     }
 }
 
+//目标节点是否为有效节点
 function _validGrid(self,target) {
     if(!target){
         return ;
@@ -226,7 +234,7 @@ function _setGridNull( target ) {
         num_node.active = true;
     }
 }
-
+``
 //格子命中(c)
 function _setGridHit ( target ) {
     if(!target){
@@ -249,140 +257,131 @@ function _setGridUnHit ( target ) {
     }
 }
 
-
-// //格子被占有(c)
-// setGridFill : function(node, spf ) {
-//     let t_index = gird_index(x,y);
-//     let t_aim = this.node.getChildByName('fk_'+t_index);
-//     if(t_aim) {
-//         var sp = bg_node.getComponent(cc.Sprite);
-//         sp.spriteFrame = spf;
-//     }
-// },
-
 //格子消除
 function _setGridDisappear ( target ) {
     // //播放消除动画
     // let t_index = gird_index(x,y);
     // let t_aim = target.getChildByName('fk_'+t_index);
     // if(t_aim) {
-
     // }
     // _setGridNull(target);
 }
 
-//生成虚拟卡牌节点
-function _genVirCardNode(self,vcard) {
-    let cellsize = 80;
-    let space = 2;
-    let border = 6;
-    let vcard_col_num = vcard.endp.x - vcard.startp.x;
-    let vcard_row_num = vcard.endp.y - vcard.startp.y;
-    let vcard_w = cellsize*vcard_col_num + space*(vcard_col_num - 1) + 2*border;
-    let vcard_h = cellsize*vcard_row_num + space*(vcard_row_num - 1) + 2*border;
-    //生成卡牌UI
-    var scard = self.node.getChildByName("card"+iid);
-    if(scard) {
-        // let userdata = { dirty: true };
-        // scard.userdata = userdata;
-        //虚拟卡牌底
-        var vircard_node = new cc.Node('vircard'+iid);
-        vircard_node.width = vcard_w;
-        vircard_node.height = vcard_h;
-        // vircard_node.x = 0;
-        // vircard_node.y = 400;
-        //设置卡牌布局
-        // var t_layout = vircard_node.addComponent(cc.Layout);
-        // t_layout.cellSize.width = cellsize;
-        // t_layout.cellSize.height = cellsize;
-        // t_layout.type = cc.Layout.Type.GRID;
-        // t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;`
-        // t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
-        // t_layout.spacingX = space;
-        // t_layout.spacingY = space;
-        // t_layout.paddingLeft = border;
-        // t_layout.paddingRight = border;
-        // t_layout.paddingTop = border;
-        // t_layout.paddingBottom = border;
-        // t_layout.updateLayout();
-        //设置widage
-        var t_widget = vircard_node.addComponent(cc.Widget);
-        t_widget.isAlignVerticalCenter = true;
-        t_widget.isAlignHorizontalCenter = true;
-        t_widget.horizontalCenter = 0;
-        t_widget.verticalCenter = 50;
-        //
-        var t_sprite = vircard_node.addComponent(cc.Sprite);
-        if(t_sprite) {
-            t_sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-            cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-                t_sprite.spriteFrame = spf;
-            });
-        }
-        // //
-        // var t_label = vircard_node.addComponent(cc.Label);
-        // if(t_label) {
-        //     t_label.string = 'a';
-        //     t_label.fontSize = cellsize;
-        //     t_label.lineHeight = cellsize;
-        // }   
-        vircard_node.parent = scard;
-    //     //设置卡牌内容
-    //     for(let j=0; j<vcard_row_num; j++) {
-    //         for(let i=0; i<vcard_col_num; i++) {
-    //             //计算数据索引
-    //             let t_index = (i + vcard.startp.x) + (j + vcard.startp.y)*vcard.w;
-    //             let t_value = vcard.data[t_index];
-    //             if(t_value>0) {
-    //                 //创建背景节点
-    //                 var num_node = new cc.Node('num_node'+t_index);
-    //                 num_node.width = cellsize;
-    //                 num_node.height = cellsize;
-    //                 var num_sp = num_node.addComponent(cc.Sprite);
-    //                 if(num_sp) {
-    //                     num_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-    //                 }
-    //                 var num_label = num_node.addComponent(cc.Label);
-    //                 if(num_label) {
-    //                     num_label.string = ''+t_value;
-    //                     num_label.fontSize = cellsize;
-    //                     num_label.lineHeight = cellsize;
-    //                 }                
-    //                 // var num_widget = num_node.addComponent(cc.Widget);
-    //                 // if(num_widget) {
-                        
-    //                 // }
-    //                 num_node.parent = vircard_node;
-    //             }else{
-    //                 //应该推入空节点
-    //                 var hull_node = new cc.Node('null_node');
-    //                 hull_node.width = cellsize;
-    //                 hull_node.height = cellsize;
-    //                 hull_node.parent = vircard_node;
-    //             }
-    //         }
-    //     }
+//生成虚拟卡牌
+function _genVirCardNode( self,vcard ) {
+    //有效区域
+    let vcard_col_num = vcard.valid_colnum;
+    let vcard_row_num = vcard.valid_rownum;
+    //计算卡牌有效区域的尺寸
+    let vcard_w = self.border*2 + self.space*(vcard_col_num-1) + vcard_col_num*self.cellw;
+    let vcard_h = self.border*2 + self.space*(vcard_row_num-1) + vcard_row_num*self.cellh;
+    //虚拟卡牌底
+    var vircard_node = new cc.Node('vircard');
+    vircard_node.x = 0;
+    vircard_node.y = 0;
+    vircard_node.width = vcard_w;
+    vircard_node.height = vcard_h;
+    //设置卡牌布局
+    var t_layout = vircard_node.addComponent(cc.Layout);
+    t_layout.cellSize.width = self.cellw;
+    t_layout.cellSize.height = self.cellh;
+    t_layout.type = cc.Layout.Type.GRID;
+    t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;
+    t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
+    t_layout.spacingX = self.space;
+    t_layout.spacingY = self.space;
+    t_layout.paddingLeft = self.border;
+    t_layout.paddingRight = self.border;
+    t_layout.paddingTop = self.border;
+    t_layout.paddingBottom = self.border;
+    //设置子节点背景
+    var t_sp = vircard_node.addComponent(cc.Sprite);
+    if(t_sp) {
+        t_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+            t_sp.spriteFrame = spf;
+        });
     }
-    //let jj = 0;
+    //设置子节点
+    let c_num = vcard_col_num*vcard_row_num;
+    for(let i=0; i<c_num; i++) {
+        //计算数据索引
+        let t_index_col = i%vcard_col_num;
+        let t_index_row = i/vcard_col_num;
+        //转换数据索引
+        let t_data_index = (t_index_col + vcard.startp.x) + (t_index_row + vcard.startp.y)*vcard.w;
+        //提取数据
+        let t_value = vcard.data[t_data_index];
+        if(t_value>0) {
+            //创建有效节点
+            let grid_node = new cc.Node('gridnode'+t_index);
+            grid_node.width = self.cellw;
+            grid_node.height = self.cellh;
+            _fillBgNode(grid_node,'red');
+            //创建数字节点
+            let num_node = new cc.Node('number');
+            num_node.parent = grid_node;
+            var num_label = num_node.addComponent(cc.Label);
+            if(num_label) {
+                num_label.string = ''+t_value;
+                num_label.fontSize = self.cellh;
+                num_label.lineHeight = self.cellh;
+            }              
+            var num_widget = num_node.addComponent(cc.Widget);
+            if(num_widget) {
+                //布局
+                num_widget.isAlignLeft = true;
+                num_widget.isAlignRight = true;
+                num_widget.isAlignBottom = true;
+                num_widget.isAlignTop = true;
+                num_widget.updateAlignment();
+            }
+            num_node.parent = vircard_node;
+        }else{
+            //创建空节点
+            var hull_node = new cc.Node('null_node');
+            hull_node.width = cellsize;
+            hull_node.height = cellsize;
+            hull_node.parent = vircard_node;
+        }
+    }
+    t_layout.updateLayout();
+    return vircard_node;
+}
+
+function _rotVirCardNode( self, vircardNode, angle ) {
+    //调整布局参数
+    //调整子节点顺序
+
 }
 
 //主要是加载用的
-function fillBgNode( target ) {
-    let sp = target.addComponent(cc.Sprite);
-    if(sp) {
-        sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-            sp.spriteFrame = spf;
-        });
+function _fillBgNode( target, group ) {
+    let resname = 'fk_beijing';
+    if(group == 'red') {
+        resname = 'fk_hongse';
+    }else if(group == 'blue') {
+        resname = 'fk_lanse';
+    }else {
+        resname = 'fk_beijing';
     }
+    let sp = target.getComponent(cc.Sprite);
+    if(!sp) {
+        sp = target.addComponent(cc.Sprite);
+    }
+    sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    cc.resources.load(resname,cc.SpriteFrame, function (err, spf) {
+        sp.spriteFrame = spf;
+    });
 }
 
-function fillSelNode( target ) {
-    let sp = target.addComponent(cc.Sprite);
-    if(sp) {
-        sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-        cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
-            sp.spriteFrame = spf;
-        });
-    }
+function _fillSelNode( target ) {
+    let sp = target.getComponent(cc.Sprite);
+    if(!sp) {
+        sp = target.addComponent(cc.Sprite);
+    }    
+    sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    cc.resources.load("fk_zuihouweizhi",cc.SpriteFrame, function (err, spf) {
+        sp.spriteFrame = spf;
+    });
 }
