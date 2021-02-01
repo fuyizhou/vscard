@@ -138,7 +138,7 @@ var _loginConNor = function ( msg ) {
 
 var _netLoginSucc = function( msg ) {
      //
-     new vapp(msg);
+     window.vapp.init(msg);
      //test
      cc.director.loadScene("hall");
 }
@@ -158,7 +158,7 @@ var _localLoginSucc = function() {
     cfg_cp.data = new Array();
     localmsg.cardgroup = cfg_cp;
     //
-    new vapp(localmsg);
+    window.vapp.init(localmsg);
     //test
     cc.director.loadScene("hall");
 }

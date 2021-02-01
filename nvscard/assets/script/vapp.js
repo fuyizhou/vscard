@@ -6,19 +6,26 @@ var vcardgroup = require('./common/vcardgroup');
     cfg.cardgroup
 */
 
-var vapp = function( cfg ) {
+var vapp = function() {
     window.vapp = this;
-    //
     this.language = 'chn';
-    //构建脚本的各种对象
+}
+
+module.exports = vapp;
+
+//
+vapp.prototype.checkUpdate = function() {
+
+}
+
+vapp.prototype.init = function( cfg ) {
+    //构建基础数据
+    this.vDataTbl = new vDataTbl();
     //构建角色
     this.vplayer = new vplayer(cfg.player);
     //构建卡组
     this.vcardgroup = new vcardgroup();
 }
-
-module.exports = vapp;
-
 
 vapp.prototype.vplayer = function() {
     return this.vplayer;
@@ -30,5 +37,4 @@ vapp.prototype.cardgroup = function() {
 
 vapp.prototype.getdata = function() {
     //
-
 }
