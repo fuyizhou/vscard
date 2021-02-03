@@ -14,11 +14,12 @@ var vapp = function() {
 
 module.exports = vapp;
 
-//
+//检测更新
 vapp.prototype.checkUpdate = function() {
 
 }
 
+//初始化
 vapp.prototype.init = function( cfg ) {
     //构建基础数据
     this.vDataTbl = new vDataTbl();
@@ -38,5 +39,12 @@ vapp.prototype.cardgroup = function() {
 }
 
 vapp.prototype.getdata = function() {
-    //
+    return this.vDataTbl;
+}
+
+vapp.prototype.getdata = function( name ) {
+    if(name == 'vcard') {
+        
+    }
+    return this.vDataTbl;
 }

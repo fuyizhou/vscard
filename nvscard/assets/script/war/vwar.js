@@ -186,16 +186,16 @@ function _readyCard( self , cnum ) {
         self.cards.push( card );
     });
     //
-    var t_war_bg = self.node.getChildByName('war_bg');
-    if(t_war_bg) {
-        var t_btm = t_war_bg.getChildByName('ly_btm');
-        if(t_btm) {
-            var t_script = t_btm.getComponent('vcgroup');
-            if(t_script) {
-                t_script.genVirtualCard(tmpCardArray);
-            }
-        }
-    }
+    // var t_war_bg = self.node.getChildByName('war_bg');
+    // if(t_war_bg) {
+    //     var t_btm = t_war_bg.getChildByName('ly_btm');
+    //     if(t_btm) {
+    //         var t_script = t_btm.getComponent('vcgroup');
+    //         if(t_script) {
+    //             t_script.genVirtualCard(tmpCardArray);
+    //         }
+    //     }
+    // }
 }
 
 //生成临时卡牌

@@ -1,15 +1,17 @@
 // var vplayer = require('./common/vplayer');
 // var vcardgroup = require('./common/vcardgroup');
+// var vapp = require('../vapp');
+// var vcardgroup = require('./vcardgroup');
 
 var vDataTbl = function() {
-    //this.loadAll();
+    this.name = 'vDataTbl';
 }
 
 module.exports = vDataTbl;
 
 //加载所有数据表
 vDataTbl.prototype.loadAll = function() {
-    this.tbl_card = {};
+    this.tbl_card = new Map();
     let kk = this;
     cc.assetManager.loadBundle('tbl', null, (err, bundle) => {
         //加载卡牌表
@@ -19,11 +21,12 @@ vDataTbl.prototype.loadAll = function() {
                 if(i == 0) {
                     //dsp
                 } else {
-                    kk.tbl_card[t_data.pid] = t_data;
+                    //推送卡牌数据
+                    kk.tbl_card.set(t_data.pid,t_data);
                 }
             }
+            //初始化卡组？
+            window.vapp.vcardgroup.inifCfg(kk.tbl_card, 1 );
         });
-        //
-
     });
 }

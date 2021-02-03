@@ -12,37 +12,31 @@ var vcard = function() {
     //卡牌的宽度和长度
     this.w = 5;
     this.h = 5;
-    //卡牌是否可以旋转
-    this.rot = false;
-    //卡牌的总格子树木
     this.gnum = this.w * this.h;
-    //卡牌的数据
-    this.data = new Array();
-    for(let i=0;i<this.gnum;i++) {
-        if(i == 0) {
-            this.data.push(1);
-        }else if(i == 1) {
-            this.data.push(1);
-        }else{
-            this.data.push(0);
-        }
-    }
-    this.refresh();
+    //卡牌是否可以旋转
+    this.lock = false;
 }
 
 module.exports = vcard;
 
-//
+//将数据装入卡牌中
 vcard.prototype.initCfg = function(cfg) {
-    this.uid = cfg.uid;
-    this.w = cfg.sizew;
-    this.h = cfg.sizeh;
-    this.rot = false;
+    this.uid = cfg.pid;
+    this.name = cfg.name;
+    this.level = cfg.level;
+    this.nexlevel = cfg.nxtlevel;
+    this.skin = cfg.skin;
+    this.lock = cfg.lock;
+    //固定数据
+    this.w = 5;
+    this.h = 5;
     this.gnum = this.w*this.h;
     this.data = new Array();
     for(let i=0;i<this.gnum;i++) {
-        this.data.push(cfg.data[i]);
+        let flag = 'g' + i;
+        this.data.push(cfg[flag]);
     }
+    //
     this.refresh();
 }
 
