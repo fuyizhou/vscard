@@ -34,7 +34,7 @@ vcard.prototype.initCfg = function(cfg) {
     this.data = new Array();
     for(let i=0;i<this.gnum;i++) {
         let flag = 'g' + i;
-        this.data.push(cfg[flag]);
+        this.data.push( parseInt(cfg[flag],10) );
     }
     //
     this.refresh();

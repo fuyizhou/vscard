@@ -78,40 +78,46 @@ cc.Class({
         for(let i=0; i < data.length; i++ ) {
             _genOneCard( this, i,data[i] );
         }   
+    },
+
+    //
+    resetVirCardNode : function (cardNode,vcardNode) {
+        _resetVirCardNode(cardNode,vcardNode);
     }
+
+    
 });
 
 var l_active_node = null;
 
 //生成一张卡牌（卡牌索引id，卡牌数据）
 function _genOneCard ( self, iid, vcard ) {
-    let cellsize = 80;
-    let space = 2;
-    let border = 6;
-    let vcard_col_num = vcard.endp.x - vcard.startp.x;
-    let vcard_row_num = vcard.endp.y - vcard.startp.y;
-    let vcard_w = cellsize*vcard_col_num + space*(vcard_col_num - 1) + 2*border;
-    let vcard_h = cellsize*vcard_row_num + space*(vcard_row_num - 1) + 2*border;
     //生成卡牌UI
     var scard = self.node.getChildByName("card"+iid);
     if(scard) {
-        // let userdata = { dirty: true };
-        // scard.userdata = userdata;
         //虚拟卡牌底
-        var vircard_node = new cc.Node('vircard');
-        vircard_node.x = 0;
-        vircard_node.y = 0;
-        vircard_node.width = vcard_w;
-        vircard_node.height = vcard_h;
-        //
-        var t_sprite = vircard_node.addComponent(cc.Sprite);
-        if(t_sprite) {
-            t_sprite.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-            cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-                t_sprite.spriteFrame = spf;
-            });
+        let t_sc = cc.director.getScene();
+        if(t_sc) {
+            let scene_root = t_sc.getChildByName('cvs_war');
+            let war_bg = scene_root.getChildByName('war_bg');
+            let ly_desk = war_bg.getChildByName('ly_desk');
+            let t_script = ly_desk.getComponent('vdesk');
+            if(t_script) {
+                let t_vir_cardnode = t_script.genVirCardNode( vcard );
+                _resetVirCardNode(scard ,t_vir_cardnode );
+            }
         }
-        vircard_node.parent = scard;
+    }
+}
+
+//重制虚拟卡牌大小
+function _resetVirCardNode (cardNode,vcardNode) {
+    if(cardNode && vcardNode) {
+        vcardNode.x = 0;
+        vcardNode.y = 50.0;
+        vcardNode.scaleX = 0.2;
+        vcardNode.scaleY = 0.2;
+        vcardNode.parent = cardNode;
     }
 }
 
@@ -143,11 +149,6 @@ function _selectCard( cardNode ) {
                 t_script.setSelectCard( cardNode);
             }
         }
-        // //节点身上应该带上逻辑card
-        // let testEvent = new cc.Event.EventCustom("e-card-select", true);//创建自定义事件
-        // //testEvent.setUserData( targetNode.getUserData() );    //设置自定义事件中包含的数据
-        // targetNode.dispatchEvent(testEvent);    //用节点分发事件
-        //targetNode.emit('say-hello', 'Hello, this is Cocos Creator');
     }
 }
 

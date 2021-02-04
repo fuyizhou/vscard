@@ -5,16 +5,15 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+var vcard = require('../common/vcard');
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-
     },
 
     ctor: function () {
-        // 声明实例变量并赋默认值
-        //需要动态设置cellsize
         this.rownum = 5;
         this.colnum = 5;
         this.gnum = this.rownum*this.colnum;
@@ -28,13 +27,11 @@ cc.Class({
 
     onLoad () {
         //构建desk
-        _buildGrid(this,this.node, this.colnum, this.rownum);
+        _buildGrid(this, this.node, this.colnum, this.rownum);
         //
         let t_girdlist = new Array();
         t_girdlist.push( {x:-100,y:-100} );
         t_girdlist.push( {x:10,y:10} );
-        //t_girdlist.push( {x:50,y:50} );
-        //t_girdlist.push();
         _crossGrid(this,t_girdlist);
     },
 
@@ -89,9 +86,20 @@ cc.Class({
 
     },
 
+    //卡牌相关的接口
     //生成虚拟卡牌节点(根据数据)
     genVirCardNode : function ( vcard ) {
         return _genVirCardNode(this,vcard);
+    },
+
+    //旋转虚拟卡牌
+    rotVirCardNode : function ( cardnode ) {
+        //return _genVirCardNode(this,vcard);
+    },
+
+    //填充虚拟卡牌
+    fillVirCardNode : function ( vcard ) {
+        //return _genVirCardNode(this,vcard);
     }
     
 });
@@ -269,22 +277,26 @@ function _setGridDisappear ( target ) {
 
 //生成虚拟卡牌
 function _genVirCardNode( self,vcard ) {
+    //
+    let t_cell_w = self.cellw;//40;
+    let t_cell_h = self.cellh;//40;
     //有效区域
     let vcard_col_num = vcard.valid_colnum;
     let vcard_row_num = vcard.valid_rownum;
     //计算卡牌有效区域的尺寸
-    let vcard_w = self.border*2 + self.space*(vcard_col_num-1) + vcard_col_num*self.cellw;
-    let vcard_h = self.border*2 + self.space*(vcard_row_num-1) + vcard_row_num*self.cellh;
+    let vcard_w = self.border*2 + self.space*(vcard_col_num-1) + vcard_col_num*t_cell_w;
+    let vcard_h = self.border*2 + self.space*(vcard_row_num-1) + vcard_row_num*t_cell_h;
     //虚拟卡牌底
     var vircard_node = new cc.Node('vircard');
     vircard_node.x = 0;
     vircard_node.y = 0;
     vircard_node.width = vcard_w;
     vircard_node.height = vcard_h;
+    vircard_node.opacity = 128;
     //设置卡牌布局
     var t_layout = vircard_node.addComponent(cc.Layout);
-    t_layout.cellSize.width = self.cellw;
-    t_layout.cellSize.height = self.cellh;
+    t_layout.cellSize.width = t_cell_w;
+    t_layout.cellSize.height = t_cell_h;
     t_layout.type = cc.Layout.Type.GRID;
     t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;
     t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
@@ -307,16 +319,16 @@ function _genVirCardNode( self,vcard ) {
     for(let i=0; i<c_num; i++) {
         //计算数据索引
         let t_index_col = i%vcard_col_num;
-        let t_index_row = i/vcard_col_num;
+        let t_index_row = Math.floor(i/vcard_col_num);
         //转换数据索引
         let t_data_index = (t_index_col + vcard.startp.x) + (t_index_row + vcard.startp.y)*vcard.w;
         //提取数据
         let t_value = vcard.data[t_data_index];
         if(t_value>0) {
             //创建有效节点
-            let grid_node = new cc.Node('gridnode'+t_index);
-            grid_node.width = self.cellw;
-            grid_node.height = self.cellh;
+            let grid_node = new cc.Node('gridnode'+t_data_index);
+            grid_node.width = t_cell_w;
+            grid_node.height = t_cell_h;
             _fillBgNode(grid_node,'red');
             //创建数字节点
             let num_node = new cc.Node('number');
@@ -324,8 +336,8 @@ function _genVirCardNode( self,vcard ) {
             var num_label = num_node.addComponent(cc.Label);
             if(num_label) {
                 num_label.string = ''+t_value;
-                num_label.fontSize = self.cellh;
-                num_label.lineHeight = self.cellh;
+                num_label.fontSize = t_cell_h;
+                num_label.lineHeight = t_cell_h;
             }              
             var num_widget = num_node.addComponent(cc.Widget);
             if(num_widget) {
@@ -340,8 +352,8 @@ function _genVirCardNode( self,vcard ) {
         }else{
             //创建空节点
             var hull_node = new cc.Node('null_node');
-            hull_node.width = cellsize;
-            hull_node.height = cellsize;
+            hull_node.width = t_cell_w;
+            hull_node.height = t_cell_h;
             hull_node.parent = vircard_node;
         }
     }
@@ -349,11 +361,18 @@ function _genVirCardNode( self,vcard ) {
     return vircard_node;
 }
 
+//旋转虚拟卡牌
 function _rotVirCardNode( self, vircardNode, angle ) {
     //调整布局参数
     //调整子节点顺序
 
 }
+
+//重制填充卡牌数据
+function _refillVirCardNode( self, vircardNode, angle ) {
+
+}
+
 
 //主要是加载用的
 function _fillBgNode( target, group ) {

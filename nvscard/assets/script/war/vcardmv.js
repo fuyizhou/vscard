@@ -55,14 +55,11 @@ cc.Class({
                     //能够放置,执行消除逻辑
                     t_script.cardNode.active = true;
                     //重新抽卡
-                    
                 }else{
                     //不能放置，恢复卡牌
                     t_script.cardNode.active = true;
                     //恢复卡牌
-                    t_script.virCardNode.parent = t_script.cardNode;
-                    t_script.virCardNode.x = 0;
-                    t_script.virCardNode.y = 0;
+                    //t_script.resetVirCardNode( t_script.cardNode, t_script.virCardNode);
                 }
                 //重制
                 t_script.cardNode = null;
@@ -88,6 +85,8 @@ cc.Class({
                 this.virCardNode.parent = this.node;
                 this.virCardNode.x = t_newpos.x;
                 this.virCardNode.y = t_newpos.y;
+                this.virCardNode.scaleX = 1.0;
+                this.virCardNode.scaleY = 1.0;
             }
         }
     },
@@ -111,7 +110,6 @@ cc.Class({
     //         // });
     //     }
     // }
-
     onEnable: function () {
         let i = 0;
     },
