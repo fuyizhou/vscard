@@ -29,42 +29,42 @@ cc.Class({
     ctor: function () {
         // 声明实例变量并赋默认值
         //需要动态设置cellsize
-        this.cardNode = null;
-        this.virCardNode = null;
+        this.cur_cardNode = null;
+        this.cur_virCardNode = null;
         this.canPlace = false;
     },
 
     // LIFE-CYCLE CALLBACKS:
     onLoad () {
+        //
         this.node.on(cc.Node.EventType.MOUSE_MOVE, function ( event ) {
-            let t_script = event.currentTarget.getComponent('vcardmv');
-            if( t_script && t_script.virCardNode!=null ) {
-                //有选中的节点，则设置目标节点位置
+            if(window.vapp.warlogic && window.vapp.warlogic.isSelect() ) {
                 let pos = event.getLocation();
                 let lpos = event.currentTarget.convertToNodeSpaceAR( pos );
-                t_script.virCardNode.x = lpos.x;
-                t_script.virCardNode.y = lpos.y;
-                //做desk的cross算法
+                window.vapp.warlogic.moveCard(lpos);
+                // let t_script = event.currentTarget.getComponent('vcardmv');
+                // if( t_script && t_script.cur_virCardNode!=null ) {
+                //     //有选中的节点，则设置目标节点位置
+                //     t_script.cur_virCardNode.x = lpos.x;
+                //     t_script.cur_virCardNode.y = lpos.y;
+                //     //做desk的cross算法
+                // }
             }
         });
+
         //
         this.node.on(cc.Node.EventType.MOUSE_UP, function ( event ) {
-            let t_script = event.currentTarget.getComponent('vcardmv');
-            if(t_script.virCardNode ) {
-                if( t_script.canPlace ) {
-                    //能够放置,执行消除逻辑
-                    t_script.cardNode.active = true;
-                    //重新抽卡
-                }else{
-                    //不能放置，恢复卡牌
-                    t_script.cardNode.active = true;
-                    //恢复卡牌
-                    //t_script.resetVirCardNode( t_script.cardNode, t_script.virCardNode);
-                }
-                //重制
-                t_script.cardNode = null;
-                t_script.virCardNode = null;
+            if(window.vapp.warlogic) {
+                window.vapp.warlogic.cancleCard();
             }
+            // let t_sc = cc.director.getScene();
+            // if(t_sc) {
+            //     let scene_root = t_sc.getChildByName('cvs_war');
+            //     let t_script = scene_root.getComponent('vwar');
+            //     if(t_script) {
+            //         window.vapp.warlogic.cancleCard();
+            //     }
+            // }
         });
     },
 

@@ -10,6 +10,8 @@ var vapp = require('../vapp');
 var vplayer = require('../common/vplayer');
 var vcardgroup = require('../common/vcardgroup');
 var vcard = require('../common/vcard');
+var vwarlogic = require('vwarlogic');
+
 const { resolve } = require('path');
 
 cc.Class({
@@ -35,22 +37,21 @@ cc.Class({
     },
 
     ctor: function () {
+        //
+        window.vapp.warlogic = new vwarlogic();
         // 声明实例变量并赋默认值
         this.cards = new Array();
         this.spf_bg = null;
         this.spf_lan = null;
         this.spf_hong = null;
         this.spf_kuang = null;
-        //
-        //window.vapp.war = this;
+       
     },
 
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
         let war = this;
-        let t_war_widget = this.node.getComponent(cc.Widget);
-        //
         _preLoadRes(this);
         // 原生平台
         // cc.assetManager.loadBundle(jsb.fileUtils.getWritablePath() + '/pathToBundle/bundleName', (err, bundle) => {
@@ -99,9 +100,14 @@ cc.Class({
         window.war = nil;
     },
 
+    onDestroy : function() {
+        window.vapp.warlogic = null;
+    },
+
     drawCard : function() {
 
     }
+
 });
 
     // async.series([

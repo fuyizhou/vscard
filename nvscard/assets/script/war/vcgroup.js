@@ -137,18 +137,8 @@ function _setVirCardSPF( cardnode , spf) {
 
 //选中卡牌
 function _selectCard( cardNode ) {
-    if(cardNode) {
-        l_active_node = cardNode;
-        //将该节点送到mv上
-        let t_sc = cc.director.getScene();
-        if(t_sc) {
-            let scene_root = t_sc.getChildByName('cvs_war');
-            let center_node = scene_root.getChildByName('ly_center');
-            let t_script = center_node.getComponent('vcardmv');
-            if(t_script) {
-                t_script.setSelectCard( cardNode);
-            }
-        }
+    if( window.vapp.warlogic) {
+        window.vapp.warlogic.selectCard(cardNode);
     }
 }
 
