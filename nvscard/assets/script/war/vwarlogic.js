@@ -82,5 +82,5 @@ vwarlogic.prototype.cancleCard = function() {
 
 //放置卡牌
 vwarlogic.prototype.placeCard = function() {
-
+    return false;
 }

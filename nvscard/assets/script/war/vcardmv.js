@@ -55,7 +55,13 @@ cc.Class({
         //
         this.node.on(cc.Node.EventType.MOUSE_UP, function ( event ) {
             if(window.vapp.warlogic) {
-                window.vapp.warlogic.cancleCard();
+                if( window.vapp.warlogic.placeCard() ) {
+                    //放置卡牌成功
+                    
+                }else{
+                    //放置卡牌失败
+                    window.vapp.warlogic.cancleCard();
+                }
             }
             // let t_sc = cc.director.getScene();
             // if(t_sc) {
