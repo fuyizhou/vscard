@@ -96,6 +96,24 @@ cc.Class({
             }
         }
     },
+  
+    onEnable: function () {
+        let i = 0;
+    },
+
+    onDisable: function () {
+
+    },
+
+    start () {
+
+    },
+
+    // update (dt) {},
+});
+
+
+  
     // for(let i=0;i<5;i++) {
     //     var card = this.node.getChildByName("card"+i);
     //     if(card) {
@@ -116,17 +134,3 @@ cc.Class({
     //         // });
     //     }
     // }
-    onEnable: function () {
-        let i = 0;
-    },
-
-    onDisable: function () {
-
-    },
-
-    start () {
-
-    },
-
-    // update (dt) {},
-});

@@ -7,6 +7,10 @@
 
 var vcard = require('../common/vcard');
 
+/*
+    牌桌
+*/
+
 cc.Class({
     extends: cc.Component,
 
@@ -21,18 +25,15 @@ cc.Class({
         this.cellh = 0;
         this.border = 6;
         this.space = 4;
-        //
+        //棋盘格子数据
+        this.girdValue = new Array();
+        //被选择的格子
         this.selectGrid = new Array();
     },
 
     onLoad () {
         //构建desk
         _buildGrid(this, this.node, this.colnum, this.rownum);
-        //
-        let t_girdlist = new Array();
-        t_girdlist.push( {x:-100,y:-100} );
-        t_girdlist.push( {x:10,y:10} );
-        _crossGrid(this,t_girdlist);
     },
 
     onEnable: function () {
@@ -100,8 +101,17 @@ cc.Class({
     //填充虚拟卡牌
     fillVirCardNode : function ( vcard ) {
         //return _genVirCardNode(this,vcard);
+    },
+
+    //判断交叉网格
+    crossVirCardNode : function( vircardnode ) {
+        //提取网格数据
+        if( vircardnode == null ) {
+            return false;
+        }
+        return _crossGrid(this,vircardnode);
     }
-    
+
 });
 
 function _girdIndex(self, x , y) {
@@ -185,34 +195,48 @@ function _buildGrid(self,desk_node, colnum, rownum) {
 }
 
 //交叉计算网格
-function _crossGrid(self,gridlist ) {
-    //清空选中的格子
-    for(let s=0;s<self.selectGrid.length;s++) {
-        _setGridUnHit( self.selectGrid[s] );
+function _crossGrid(self,vnode ) {
+    //
+    for(let k=0; k<self.node.childrenCount; k++) {
+        let tmp = self.node.children[k];
+        _setGridUnHit( tmp );
     }
-    self.selectGrid.length=0;
-    //选择对应的格子
-    for( let i=0;i<gridlist.length;i++ ) {
-        //网格中心点
-        let t_aim_pt = gridlist[i];
-        //遍历棋盘网格
-        for(let j=0; j<self.node.childrenCount; j++) {
-            let tmp = self.node.children[j];
-            if(t_aim_pt.x>tmp.x && t_aim_pt.x<(tmp.x+tmp.width) && t_aim_pt.y>tmp.y && t_aim_pt.y<(tmp.y+tmp.height)) {
-                   //在此格子中间
-                   if( _validGrid(self,tmp) ) {
-                       self.selectGrid.push( tmp );
-                   }
-               }
+    //判断卡牌在desk内部
+    for(let i = 0;i<vnode.childrenCount;i++) {
+        let v_card_grid = vnode.children[i];
+        if( v_card_grid.getComponent(cc.Label) ) {
+            //转换成屏幕坐标坐标
+            let tt_pos = vnode.convertToWorldSpaceAR( v_card_grid.getPosition() );
+            //转换到desk节点上
+            tt_pos = self.node.convertToNodeSpaceAR( tt_pos );
+            //遍历棋盘节点
+            for(let j=0; j<self.node.childrenCount; j++) {
+                let tmp = self.node.children[j];
+                let rr = new cc.Rect(tmp.x, tmp.y, tmp.width, tmp.height);
+                let flag = rr.contains(cc.Vec2(tt_pos.x,tt_pos.y));
+                if(flag) {
+                    //判断格子是否有效
+                    _setGridHit( tmp );
+                }
+            }
+        }else{
+
         }
     }
-    //判断有效性
-    if(self.selectGrid.length == gridlist.length ) {
-        //目标格子表现为选中状态
-        for(let k=0;k<self.selectGrid.length;k++) {
-            _setGridHit( self.selectGrid[k] );
-        }
-    }
+    // //清空选中的格子
+    // for(let s=0;s<self.selectGrid.length;s++) {
+    //     _setGridUnHit( self.selectGrid[s] );
+    // }
+    // self.selectGrid.length=0;
+
+    // //判断有效性
+    // if(self.selectGrid.length == gridlist.length ) {
+    //     //目标格子表现为选中状态
+    //     for(let k=0;k<self.selectGrid.length;k++) {
+    //         _setGridHit( self.selectGrid[k] );
+    //     }
+    // }
+    return true;
 }
 
 //目标节点是否为有效节点
@@ -277,6 +301,8 @@ function _setGridDisappear ( target ) {
 
 //生成虚拟卡牌
 function _genVirCardNode( self,vcard ) {
+    //
+    let t_scale_rate = 0.25;
     //
     let t_cell_w = self.cellw;//40;
     let t_cell_h = self.cellh;//40;
@@ -372,7 +398,6 @@ function _rotVirCardNode( self, vircardNode, angle ) {
 function _refillVirCardNode( self, vircardNode, angle ) {
 
 }
-
 
 //主要是加载用的
 function _fillBgNode( target, group ) {

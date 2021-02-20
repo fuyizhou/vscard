@@ -19,6 +19,9 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        warlogic :  {
+            default : null
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -37,22 +40,18 @@ cc.Class({
     },
 
     ctor: function () {
-        //
-        window.vapp.warlogic = new vwarlogic();
         // 声明实例变量并赋默认值
         this.cards = new Array();
         this.spf_bg = null;
         this.spf_lan = null;
         this.spf_hong = null;
         this.spf_kuang = null;
-       
     },
 
     // LIFE-CYCLE CALLBACKS: 
 
     onLoad () {
-        let war = this;
-        _preLoadRes(this);
+        this.warlogic = new vwarlogic();
         // 原生平台
         // cc.assetManager.loadBundle(jsb.fileUtils.getWritablePath() + '/pathToBundle/bundleName', (err, bundle) => {
         //     // ...
@@ -72,6 +71,7 @@ cc.Class({
         //         }
         //     }
         // }
+        //let kk = this.warlogic;
     },
 
     start () {
@@ -101,12 +101,18 @@ cc.Class({
     },
 
     onDestroy : function() {
-        window.vapp.warlogic = null;
+        this.warlogic = null;
     },
 
     drawCard : function() {
 
-    }
+    },
+
+    update (dt) {
+        if( this.warlogic != null ) {
+            this.warlogic.update(dt);
+        }
+    },
 
 });
 
@@ -164,29 +170,14 @@ cc.Class({
     //     }
     // });
 
-function _preLoadRes( war ) {
-    //加载资源
-    // let i = await new Promise( (resolve,reject) => {
-    //     cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-    //         war.spf_bg = spf;
-    //         reject(spf);
-    //     });
-    // });
-    // console.log("spf" + i);
-    // let j = await new Promise( (resolve,reject) => {
-    //     cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-    //         war.spf_bg = spf;
-    //         reject(spf);
-    //     });
-    // });
-    // console.log("spf" + j);
-    return null;
-}
-
+// function _preLoadRes( war ) {
+//     return null;
+// }
 
 //准备5张卡牌
 function _readyCard( self , cnum ) {
     var cp = window.vapp.cardgroup();
+    //抽取卡牌
     var tmpCardArray = cp.drawCard( cnum );
     tmpCardArray.forEach( card => {
         self.cards.push( card );
@@ -201,15 +192,5 @@ function _readyCard( self , cnum ) {
                 t_script.genVirtualCard(tmpCardArray);
             }
         }
-    }
-}
-
-//生成临时卡牌
-function _genTmpCard( card ) {
-    let i = 0;
-    //生成一张卡牌，挂在
-    var lay_center = this.node.getChildByName('ly_center');
-    if(lay_center) {
-        //var tmp_node = new cc.node();
     }
 }

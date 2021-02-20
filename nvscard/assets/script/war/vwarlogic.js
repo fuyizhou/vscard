@@ -1,11 +1,54 @@
 //战斗主逻辑
+var vbatter = require('vbatter');
 
+//该对象与服务器做对接
 var vwarlogic = function() {
+    //当前选中的卡牌和当前虚拟卡牌
     this.curCardNode = null;
     this.curVirCardNode = null;
+    //战场控制
+    //红色代表自己
+    this.redBatter = new vbatter();
+    this.redBatter.initSelf(0);
+    //创建一个batter
+    //蓝色代表对手
+    this.blueBatter = new vbatter();
+    this.blueBatter.initAi(0);
+    //战斗规则
+    //每回合时间
+    this.turnTime = 30.0;
+    //胜利的总分
+    this.maxScore = 200;
+    //回合数目
+    this.turnNum = 0;
+    //激活数目 0 代表自己，1代表对方
+    this.activeNum = 0;
+    //累计时间
+    this.accTime = 0;
 }
 
 module.exports = vwarlogic;
+
+vwarlogic.prototype.update = function( dt ) {
+    //时间控制
+    this.accTime += dt;
+    if(this.accTime>this.turnTime) {
+        this.turnBatter();
+    }
+}
+
+//交换对沙鸥
+vwarlogic.prototype.turnBatter = function() {
+    this.accTime = 0;
+    if(this.activeNum == 0) {
+        this.activeNum = 1;
+    }else {
+        this.activeNum = 0;
+    }
+}
+
+//
+
 
 vwarlogic.prototype.isSelect = function() {
     if(this.curVirCardNode) {
@@ -42,28 +85,14 @@ vwarlogic.prototype.moveCard = function( lp ) {
     if(this.curVirCardNode) {
         this.curVirCardNode.x = lp.x;
         this.curVirCardNode.y = lp.y;
+        //计算cross-node
+        let desk_node = cc.find("cvs_war/war_bg/ly_desk");
+        if(desk_node && desk_node.getComponent('vdesk') ) {
+            return desk_node.getComponent('vdesk').crossVirCardNode(this.curVirCardNode);
+        }
     }
+    return false;
 }
-
-// if( this.cardNode!=cardNode ) {
-//     //卡牌消失
-//     this.cardNode = cardNode;
-//     this.cardNode.active = false;
-//     //获取虚拟卡牌
-//     this.virCardNode = this.cardNode.getChildByName('vircard');
-//     if( this.virCardNode ) {
-//         //调整虚拟卡牌位置和父子关系
-//         this.virCardNode.parent = null;
-//         let t_oldpos = cc.v2(this.virCardNode.x,this.virCardNode.y);
-//         let t_newpos = this.virCardNode.convertToWorldSpaceAR( t_oldpos );
-//         t_newpos = this.node.convertToNodeSpaceAR( t_newpos );
-//         this.virCardNode.parent = this.node;
-//         this.virCardNode.x = t_newpos.x;
-//         this.virCardNode.y = t_newpos.y;
-//         this.virCardNode.scaleX = 1.0;
-//         this.virCardNode.scaleY = 1.0;
-//     }
-// }
 
 //取消卡牌
 vwarlogic.prototype.cancleCard = function() {
@@ -80,7 +109,9 @@ vwarlogic.prototype.cancleCard = function() {
     this.curCardNode = null;
 }
 
-//放置卡牌
-vwarlogic.prototype.placeCard = function() {
+//放置卡牌（逻辑上的运算）
+vwarlogic.prototype.placeCard = function(vcard, x, y) {
+    //计算分数
+    
     return false;
 }
