@@ -36,12 +36,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
     onLoad () {
-        //
         this.node.on(cc.Node.EventType.MOUSE_MOVE, function ( event ) {
-            if(window.vapp.warlogic && window.vapp.warlogic.isSelect() ) {
+            if(window.war.warlogic && window.war.warlogic.isSelect() ) {
                 let pos = event.getLocation();
                 let lpos = event.currentTarget.convertToNodeSpaceAR( pos );
-                window.vapp.warlogic.moveCard(lpos);
+                window.war.warlogic.moveCard(lpos);
                 // let t_script = event.currentTarget.getComponent('vcardmv');
                 // if( t_script && t_script.cur_virCardNode!=null ) {
                 //     //有选中的节点，则设置目标节点位置
@@ -54,13 +53,13 @@ cc.Class({
 
         //
         this.node.on(cc.Node.EventType.MOUSE_UP, function ( event ) {
-            if(window.vapp.warlogic) {
-                if( window.vapp.warlogic.placeCard() ) {
+            if(window.war.warlogic) {
+                if( window.war.warlogic.placeCard() ) {
                     //放置卡牌成功
                     
                 }else{
                     //放置卡牌失败
-                    window.vapp.warlogic.cancleCard();
+                    window.war.warlogic.cancleCard();
                 }
             }
             // let t_sc = cc.director.getScene();

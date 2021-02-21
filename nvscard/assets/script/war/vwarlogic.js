@@ -1,16 +1,23 @@
 //战斗主逻辑
-var vbatter = require('vbatter');
+var vbatter = require('./vbatter');
 
 //该对象与服务器做对接
 var vwarlogic = function() {
     //当前选中的卡牌和当前虚拟卡牌
     this.curCardNode = null;
     this.curVirCardNode = null;
+    //棋盘相关
+    this.rownum = 5;
+    this.colnum = 5;
+    this.gnum = this.rownum*this.colnum;
+    this.girdValue = new Array();
+    for(let i=0;i<25;i++) {
+        this.girdValue.push(0);
+    }
     //战场控制
     //红色代表自己
     this.redBatter = new vbatter();
-    this.redBatter.initSelf(0);
-    //创建一个batter
+    this.redBatter.initSelf();
     //蓝色代表对手
     this.blueBatter = new vbatter();
     this.blueBatter.initAi(0);
@@ -80,7 +87,6 @@ vwarlogic.prototype.selectCard = function(cardNode) {
     }
 }
 
-
 vwarlogic.prototype.moveCard = function( lp ) {
     if(this.curVirCardNode) {
         this.curVirCardNode.x = lp.x;
@@ -97,21 +103,20 @@ vwarlogic.prototype.moveCard = function( lp ) {
 //取消卡牌
 vwarlogic.prototype.cancleCard = function() {
     if(this.curVirCardNode && this.curCardNode) {
-        this.curVirCardNode.x = 0;
-        this.curVirCardNode.y = 50.0;
-        this.curVirCardNode.scaleX = 0.2;
-        this.curVirCardNode.scaleY = 0.2;
-        this.curVirCardNode.parent = this.curCardNode;
-        //
+        let tt_btm = cc.find("cvs_war/war_bg/ly_btm");
+        let tt_vcgroup = tt_btm.getComponent('vcgroup');
+        tt_vcgroup.resetVirCardNode(this.curCardNode,this.curVirCardNode);
         this.curCardNode.active = true;
     }
     this.curVirCardNode = null;
     this.curCardNode = null;
 }
 
-//放置卡牌（逻辑上的运算）
+//放置卡牌（逻辑上的运算）(按卡牌的角点进行计算)
 vwarlogic.prototype.placeCard = function(vcard, x, y) {
     //计算分数
-    
+    // for( let i=0;i<vcard.data.length;i++ ) {
+
+    // }
     return false;
 }

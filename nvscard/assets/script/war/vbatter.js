@@ -13,22 +13,22 @@ var vbatter = function() {
 module.exports = vbatter;
 
 //初始化自己
-vbatter.prototype.initSelf = function( msg ) {
-    if(num == 0 ) {
-        //默认AI
-    }
+vbatter.prototype.initSelf = function(  ) {
+    // if(num == 0 ) {
+    //     //默认AI
+    // }
 }
 
 //初始化对手
-vbatter.prototype.initPlayer = function( msg ) {
-    if(num == 0 ) {
-        //默认AI
-    }
+vbatter.prototype.initPlayer = function(  ) {
+    // if(num == 0 ) {
+    //     //默认AI
+    // }
 }
 
 //初始化AI
 vbatter.prototype.initAi = function( num ) {
-    if(num == 0 ) {
-        //默认AI
-    }
+    // if(num == 0 ) {
+    //     //默认AI
+    // }
 }

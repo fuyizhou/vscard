@@ -25,8 +25,6 @@ cc.Class({
         this.cellh = 0;
         this.border = 6;
         this.space = 4;
-        //棋盘格子数据
-        this.girdValue = new Array();
         //被选择的格子
         this.selectGrid = new Array();
     },
@@ -45,7 +43,7 @@ cc.Class({
     },
     
     start () {
-
+        
     },
     
     update (dt) {
@@ -88,19 +86,13 @@ cc.Class({
     },
 
     //卡牌相关的接口
-    //生成虚拟卡牌节点(根据数据)
-    genVirCardNode : function ( vcard ) {
-        return _genVirCardNode(this,vcard);
-    },
 
     //旋转虚拟卡牌
     rotVirCardNode : function ( cardnode ) {
-        //return _genVirCardNode(this,vcard);
     },
 
     //填充虚拟卡牌
     fillVirCardNode : function ( vcard ) {
-        //return _genVirCardNode(this,vcard);
     },
 
     //判断交叉网格
@@ -297,94 +289,6 @@ function _setGridDisappear ( target ) {
     // if(t_aim) {
     // }
     // _setGridNull(target);
-}
-
-//生成虚拟卡牌
-function _genVirCardNode( self,vcard ) {
-    //
-    let t_scale_rate = 0.25;
-    //
-    let t_cell_w = self.cellw;//40;
-    let t_cell_h = self.cellh;//40;
-    //有效区域
-    let vcard_col_num = vcard.valid_colnum;
-    let vcard_row_num = vcard.valid_rownum;
-    //计算卡牌有效区域的尺寸
-    let vcard_w = self.border*2 + self.space*(vcard_col_num-1) + vcard_col_num*t_cell_w;
-    let vcard_h = self.border*2 + self.space*(vcard_row_num-1) + vcard_row_num*t_cell_h;
-    //虚拟卡牌底
-    var vircard_node = new cc.Node('vircard');
-    vircard_node.x = 0;
-    vircard_node.y = 0;
-    vircard_node.width = vcard_w;
-    vircard_node.height = vcard_h;
-    vircard_node.opacity = 128;
-    //设置卡牌布局
-    var t_layout = vircard_node.addComponent(cc.Layout);
-    t_layout.cellSize.width = t_cell_w;
-    t_layout.cellSize.height = t_cell_h;
-    t_layout.type = cc.Layout.Type.GRID;
-    t_layout.resizeMode = cc.Layout.ResizeMode.CHILDREN;
-    t_layout.startAxis = cc.Layout.AxisDirection.HORIZONTAL;
-    t_layout.spacingX = self.space;
-    t_layout.spacingY = self.space;
-    t_layout.paddingLeft = self.border;
-    t_layout.paddingRight = self.border;
-    t_layout.paddingTop = self.border;
-    t_layout.paddingBottom = self.border;
-    //设置子节点背景
-    var t_sp = vircard_node.addComponent(cc.Sprite);
-    if(t_sp) {
-        t_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-            t_sp.spriteFrame = spf;
-        });
-    }
-    //设置子节点
-    let c_num = vcard_col_num*vcard_row_num;
-    for(let i=0; i<c_num; i++) {
-        //计算数据索引
-        let t_index_col = i%vcard_col_num;
-        let t_index_row = Math.floor(i/vcard_col_num);
-        //转换数据索引
-        let t_data_index = (t_index_col + vcard.startp.x) + (t_index_row + vcard.startp.y)*vcard.w;
-        //提取数据
-        let t_value = vcard.data[t_data_index];
-        if(t_value>0) {
-            //创建有效节点
-            let grid_node = new cc.Node('gridnode'+t_data_index);
-            grid_node.width = t_cell_w;
-            grid_node.height = t_cell_h;
-            _fillBgNode(grid_node,'red');
-            //创建数字节点
-            let num_node = new cc.Node('number');
-            num_node.parent = grid_node;
-            var num_label = num_node.addComponent(cc.Label);
-            if(num_label) {
-                num_label.string = ''+t_value;
-                num_label.fontSize = t_cell_h;
-                num_label.lineHeight = t_cell_h;
-            }              
-            var num_widget = num_node.addComponent(cc.Widget);
-            if(num_widget) {
-                //布局
-                num_widget.isAlignLeft = true;
-                num_widget.isAlignRight = true;
-                num_widget.isAlignBottom = true;
-                num_widget.isAlignTop = true;
-                num_widget.updateAlignment();
-            }
-            num_node.parent = vircard_node;
-        }else{
-            //创建空节点
-            var hull_node = new cc.Node('null_node');
-            hull_node.width = t_cell_w;
-            hull_node.height = t_cell_h;
-            hull_node.parent = vircard_node;
-        }
-    }
-    t_layout.updateLayout();
-    return vircard_node;
 }
 
 //旋转虚拟卡牌

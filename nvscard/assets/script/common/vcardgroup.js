@@ -24,7 +24,7 @@ vcardgroup.prototype.inifCfg = function( cards, local ) {
         }
     }else{
         //清空卡组，加载
-        
+        ``
     }
 }
 
