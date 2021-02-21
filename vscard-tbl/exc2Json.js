@@ -38,11 +38,8 @@ function exc2json(fname) {
 }
 
 exc2json('./vstbl.xlsx');
-exc2json('./vlevel.xlsx');
+exc2json('./vslevel.xlsx');
 exc2json('./vseg.xlsx');
-exc2json('./vpipei.xlsx');
-exc2json('./vai.xlsx');
-exc2json('./vaicardgroup.xlsx');
-exc2json('./vaitime.xlsx');
-exc2json('./vaiaction.xlsx');
-exc2json('./vaigroup.xlsx');
+exc2json('./vspipei.xlsx');
+exc2json('./vsai.xlsx');
+exc2json('./vsaicardgroup.xlsx');

@@ -9,7 +9,6 @@
 
 var vcard = function() {
     this.uid = 0;
-    //卡牌的宽度和长度
     this.w = 5;
     this.h = 5;
     this.gnum = this.w * this.h;
@@ -89,7 +88,7 @@ vcard.prototype.genNode = function( cellsize, border, space ) {
     vircard_node.y = 0;
     vircard_node.width = t_vcard_w;
     vircard_node.height = t_vcard_h;
-    vircard_node.opacity = 128;
+    vircard_node.opacity = 255;
     //设置卡牌布局
     var t_layout = vircard_node.addComponent(cc.Layout);
     t_layout.cellSize.width = t_cell_w;
@@ -104,13 +103,13 @@ vcard.prototype.genNode = function( cellsize, border, space ) {
     t_layout.paddingTop = border;
     t_layout.paddingBottom = border;
     //设置子节点背景
-    var t_sp = vircard_node.addComponent(cc.Sprite);
-    if(t_sp) {
-        t_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
-        cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
-            t_sp.spriteFrame = spf;
-        });
-    }
+    // var t_sp = vircard_node.addComponent(cc.Sprite);
+    // if(t_sp) {
+    //     t_sp.sizeMode = cc.Sprite.SizeMode.CUSTOM;
+    //     cc.resources.load("fk_beijing",cc.SpriteFrame, function (err, spf) {
+    //         t_sp.spriteFrame = spf;
+    //     });
+    // }
     //设置子节点
     for(let i=0; i<this.gnum; i++) {
         let t_value = this.data[i];
@@ -120,7 +119,7 @@ vcard.prototype.genNode = function( cellsize, border, space ) {
             grid_node.width = t_cell_w;
             grid_node.height = t_cell_h;
             grid_node.parent = vircard_node;
-            this.fillBgNode(grid_node,'red');
+            this.fillBgNode(grid_node,'blue');
             //创建数字节点
             let num_node = new cc.Node('number');
             var num_label = num_node.addComponent(cc.Label);

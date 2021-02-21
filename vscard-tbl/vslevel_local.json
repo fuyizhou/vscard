@@ -1,0 +1,257 @@
+[
+	{
+		"pid": "pid",
+		"levelid": "等级",
+		"nextlevelupexp": "升级需要经验"
+	},
+	{
+		"pid": 1,
+		"levelid": 1,
+		"nextlevelupexp": 100
+	},
+	{
+		"pid": 2,
+		"levelid": 2,
+		"nextlevelupexp": 200
+	},
+	{
+		"pid": 3,
+		"levelid": 3,
+		"nextlevelupexp": 300
+	},
+	{
+		"pid": 4,
+		"levelid": 4,
+		"nextlevelupexp": 400
+	},
+	{
+		"pid": 5,
+		"levelid": 5,
+		"nextlevelupexp": 500
+	},
+	{
+		"pid": 6,
+		"levelid": 6,
+		"nextlevelupexp": 600
+	},
+	{
+		"pid": 7,
+		"levelid": 7,
+		"nextlevelupexp": 700
+	},
+	{
+		"pid": 8,
+		"levelid": 8,
+		"nextlevelupexp": 800
+	},
+	{
+		"pid": 9,
+		"levelid": 9,
+		"nextlevelupexp": 900
+	},
+	{
+		"pid": 10,
+		"levelid": 10,
+		"nextlevelupexp": 1000
+	},
+	{
+		"pid": 11,
+		"levelid": 11,
+		"nextlevelupexp": 1100
+	},
+	{
+		"pid": 12,
+		"levelid": 12,
+		"nextlevelupexp": 1200
+	},
+	{
+		"pid": 13,
+		"levelid": 13,
+		"nextlevelupexp": 1300
+	},
+	{
+		"pid": 14,
+		"levelid": 14,
+		"nextlevelupexp": 1400
+	},
+	{
+		"pid": 15,
+		"levelid": 15,
+		"nextlevelupexp": 1500
+	},
+	{
+		"pid": 16,
+		"levelid": 16,
+		"nextlevelupexp": 1600
+	},
+	{
+		"pid": 17,
+		"levelid": 17,
+		"nextlevelupexp": 1700
+	},
+	{
+		"pid": 18,
+		"levelid": 18,
+		"nextlevelupexp": 1800
+	},
+	{
+		"pid": 19,
+		"levelid": 19,
+		"nextlevelupexp": 1900
+	},
+	{
+		"pid": 20,
+		"levelid": 20,
+		"nextlevelupexp": 2000
+	},
+	{
+		"pid": 21,
+		"levelid": 21,
+		"nextlevelupexp": 2100
+	},
+	{
+		"pid": 22,
+		"levelid": 22,
+		"nextlevelupexp": 2200
+	},
+	{
+		"pid": 23,
+		"levelid": 23,
+		"nextlevelupexp": 2300
+	},
+	{
+		"pid": 24,
+		"levelid": 24,
+		"nextlevelupexp": 2400
+	},
+	{
+		"pid": 25,
+		"levelid": 25,
+		"nextlevelupexp": 2500
+	},
+	{
+		"pid": 26,
+		"levelid": 26,
+		"nextlevelupexp": 2600
+	},
+	{
+		"pid": 27,
+		"levelid": 27,
+		"nextlevelupexp": 2700
+	},
+	{
+		"pid": 28,
+		"levelid": 28,
+		"nextlevelupexp": 2800
+	},
+	{
+		"pid": 29,
+		"levelid": 29,
+		"nextlevelupexp": 2900
+	},
+	{
+		"pid": 30,
+		"levelid": 30,
+		"nextlevelupexp": 3000
+	},
+	{
+		"pid": 31,
+		"levelid": 31,
+		"nextlevelupexp": 3100
+	},
+	{
+		"pid": 32,
+		"levelid": 32,
+		"nextlevelupexp": 3200
+	},
+	{
+		"pid": 33,
+		"levelid": 33,
+		"nextlevelupexp": 3300
+	},
+	{
+		"pid": 34,
+		"levelid": 34,
+		"nextlevelupexp": 3400
+	},
+	{
+		"pid": 35,
+		"levelid": 35,
+		"nextlevelupexp": 3500
+	},
+	{
+		"pid": 36,
+		"levelid": 36,
+		"nextlevelupexp": 3600
+	},
+	{
+		"pid": 37,
+		"levelid": 37,
+		"nextlevelupexp": 3700
+	},
+	{
+		"pid": 38,
+		"levelid": 38,
+		"nextlevelupexp": 3800
+	},
+	{
+		"pid": 39,
+		"levelid": 39,
+		"nextlevelupexp": 3900
+	},
+	{
+		"pid": 40,
+		"levelid": 40,
+		"nextlevelupexp": 4000
+	},
+	{
+		"pid": 41,
+		"levelid": 41,
+		"nextlevelupexp": 4100
+	},
+	{
+		"pid": 42,
+		"levelid": 42,
+		"nextlevelupexp": 4200
+	},
+	{
+		"pid": 43,
+		"levelid": 43,
+		"nextlevelupexp": 4300
+	},
+	{
+		"pid": 44,
+		"levelid": 44,
+		"nextlevelupexp": 4400
+	},
+	{
+		"pid": 45,
+		"levelid": 45,
+		"nextlevelupexp": 4500
+	},
+	{
+		"pid": 46,
+		"levelid": 46,
+		"nextlevelupexp": 4600
+	},
+	{
+		"pid": 47,
+		"levelid": 47,
+		"nextlevelupexp": 4700
+	},
+	{
+		"pid": 48,
+		"levelid": 48,
+		"nextlevelupexp": 4800
+	},
+	{
+		"pid": 49,
+		"levelid": 49,
+		"nextlevelupexp": 4900
+	},
+	{
+		"pid": 50,
+		"levelid": 50,
+		"nextlevelupexp": 5000
+	}
+]

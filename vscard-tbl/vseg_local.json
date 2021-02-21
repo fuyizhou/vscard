@@ -1,0 +1,123 @@
+[
+	{
+		"pid": "pid",
+		"sid": "段位",
+		"gradelevel": "等级",
+		"nametext": "段位名称",
+		"Icon": "图标",
+		"effect": "特效",
+		"nextstart": "升级星数",
+		"winscore": "胜利需要分数",
+		"AIgroup": "AI组"
+	},
+	{
+		"pid": 1,
+		"sid": 1,
+		"gradelevel": 1,
+		"nametext": "青铜3",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 50,
+		"AIgroup": 1
+	},
+	{
+		"pid": 2,
+		"sid": 1,
+		"gradelevel": 2,
+		"nametext": "青铜2",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 50,
+		"AIgroup": 1
+	},
+	{
+		"pid": 3,
+		"sid": 1,
+		"gradelevel": 3,
+		"nametext": "青铜1",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 50,
+		"AIgroup": 1
+	},
+	{
+		"pid": 4,
+		"sid": 2,
+		"gradelevel": 1,
+		"nametext": "白银3",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 80,
+		"AIgroup": 1
+	},
+	{
+		"pid": 5,
+		"sid": 2,
+		"gradelevel": 2,
+		"nametext": "白银2",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 80,
+		"AIgroup": 1
+	},
+	{
+		"pid": 6,
+		"sid": 2,
+		"gradelevel": 3,
+		"nametext": "白银1",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 3,
+		"winscore": 80,
+		"AIgroup": 1
+	},
+	{
+		"pid": 7,
+		"sid": 3,
+		"gradelevel": 1,
+		"nametext": "黄金4",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 4,
+		"winscore": 120,
+		"AIgroup": 2
+	},
+	{
+		"pid": 8,
+		"sid": 3,
+		"gradelevel": 2,
+		"nametext": "黄金3",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 4,
+		"winscore": 120,
+		"AIgroup": 2
+	},
+	{
+		"pid": 9,
+		"sid": 3,
+		"gradelevel": 3,
+		"nametext": "黄金2",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 4,
+		"winscore": 120,
+		"AIgroup": 2
+	},
+	{
+		"pid": 10,
+		"sid": 3,
+		"gradelevel": 4,
+		"nametext": "黄金1",
+		"Icon": 1111,
+		"effect": 1111,
+		"nextstart": 4,
+		"winscore": 120,
+		"AIgroup": 2
+	}
+]

@@ -1,0 +1,38 @@
+[
+	{
+		"pid": "匹配条件",
+		"timemin": "匹配最小时间毫秒",
+		"timemax": "匹配最长时间毫秒-1时无限长",
+		"Matchvalue1": "参数1",
+		"Matchvalue2": "参数2",
+		"Matchvalue3": "0输1赢",
+		"shuoming": "说明|这个表根据当前的情况来决定是不是要匹配ai"
+	},
+	{
+		"pid": 1,
+		"timemin": 500,
+		"timemax": 5000,
+		"Matchvalue1": 1,
+		"Matchvalue2": 1,
+		"Matchvalue3": 0,
+		"shuoming": "匹配条件1，总场数小于Vaule1的之时匹配AI"
+	},
+	{
+		"pid": 2,
+		"timemin": 2000,
+		"timemax": 5000,
+		"Matchvalue1": 2,
+		"Matchvalue2": 20,
+		"Matchvalue3": 0,
+		"shuoming": "匹配条件2，连续失败vaule1场时有vaule2的几率匹配ai"
+	},
+	{
+		"pid": 3,
+		"timemin": 2000,
+		"timemax": -1,
+		"Matchvalue1": 3,
+		"Matchvalue2": 5,
+		"Matchvalue3": 0,
+		"shuoming": "匹配条件3匹配时间超过vaule1时每秒有vaule2的几率匹配到机器人"
+	}
+]

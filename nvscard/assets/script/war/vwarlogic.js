@@ -15,12 +15,12 @@ var vwarlogic = function() {
         this.girdValue.push(0);
     }
     //战场控制
-    //红色代表自己
-    this.redBatter = new vbatter();
-    this.redBatter.initSelf();
-    //蓝色代表对手
+    //蓝色代表自己
     this.blueBatter = new vbatter();
-    this.blueBatter.initAi(0);
+    this.blueBatter.initSelf(0);
+    //红色代表对手
+    this.redBatter = new vbatter();
+    this.redBatter.initAi();
     //战斗规则
     //每回合时间
     this.turnTime = 30.0;
@@ -42,6 +42,10 @@ vwarlogic.prototype.update = function( dt ) {
     if(this.accTime>this.turnTime) {
         this.turnBatter();
     }
+    //
+    if(this.activeNum == 1) {
+        this.redBatter.update( dt );
+    }
 }
 
 //交换对沙鸥
@@ -49,14 +53,18 @@ vwarlogic.prototype.turnBatter = function() {
     this.accTime = 0;
     if(this.activeNum == 0) {
         this.activeNum = 1;
+        //
+        this.blueBatter.unActive();
+        this.redBatter.active();
     }else {
+        //
+        this.redBatter.unActive();
+        this.blueBatter.active();
         this.activeNum = 0;
     }
 }
 
 //
-
-
 vwarlogic.prototype.isSelect = function() {
     if(this.curVirCardNode) {
         return true;
@@ -116,7 +124,17 @@ vwarlogic.prototype.cancleCard = function() {
 vwarlogic.prototype.placeCard = function(vcard, x, y) {
     //计算分数
     // for( let i=0;i<vcard.data.length;i++ ) {
-
     // }
     return false;
+}
+
+//获取场上有效格子数目
+vwarlogic.prototype.deskGridNum = function() {
+    let kk = 0;
+    for(let i=0;i<25;i++) {
+        if( this.girdValue[i]>0 ) {
+            kk++;
+        }
+    }
+    return kk;
 }

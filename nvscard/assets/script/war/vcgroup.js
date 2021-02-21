@@ -14,6 +14,7 @@ cc.Class({
                     //请求服务器对战消息，根据消息然后，加载场景
                     _selectCard( event.currentTarget );
                 });
+                //计算卡牌位置和方向
                 // card.on('mouseup', function ( event ) {
                 //     //请求服务器对战消息，根据消息然后，加载场景
                 //     console.log("place card:"+event.currentTarget);
